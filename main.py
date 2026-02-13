@@ -150,7 +150,7 @@ async def refresh_data(request: Request):
         # will show old data or partial data, which is better than crash.
         pass
         
-    return RedirectResponse(url=request.url_for("read_root"))
+    return RedirectResponse(url="/audio/")
 
 # --- Auth Routes ---
 
@@ -165,18 +165,18 @@ async def auth(request: Request):
         token = await oauth.auth0.authorize_access_token(request)
     except Exception as e:
         # Handle error (e.g. user cancelled)
-        return RedirectResponse(url=request.url_for("read_root"))
+        return RedirectResponse(url="/audio/")
         
     user = token.get("userinfo")
     if user:
         request.session["user"] = user
         
-    return RedirectResponse(url=request.url_for("read_root"))
+    return RedirectResponse(url="/audio/")
 
 @app.get("/logout")
 async def logout(request: Request):
     request.session.pop("user", None)
-    return RedirectResponse(url=request.url_for("read_root"))
+    return RedirectResponse(url="/audio/")
 
 # --- API Routes ---
 
