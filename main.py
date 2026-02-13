@@ -49,7 +49,19 @@ async def read_root(request: Request):
     # Sort sections (optional, but good for consistent UI)
     sorted_sections = dict(sorted(sections.items()))
 
-    return templates.TemplateResponse("index.html", {"request": request, "sections": sorted_sections})
+    # Extract unique speakers
+    speakers = set()
+    for takes in sorted_sections.values():
+        for take in takes:
+            if take.person:
+                speakers.add(take.person)
+    sorted_speakers = sorted(list(speakers))
+
+    return templates.TemplateResponse("index.html", {
+        "request": request, 
+        "sections": sorted_sections,
+        "speakers": sorted_speakers
+    })
 
 from sync_assets import run_sync
 

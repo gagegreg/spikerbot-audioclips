@@ -22,7 +22,7 @@
         }
 
         .container {
-            max_width: 1000px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -159,6 +159,50 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            padding: 12px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            position: sticky;
+            top: 73px;
+            /* Toolbar h + pad approx */
+            z-index: 90;
+        }
+
+        .filter-btn {
+            background: #eee;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: #333;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Dynamic Tag Colors */
+        .person-tag {
+            /* Now handled by inline style or JS? Let's use JS to inject style for consistency */
+            /* Fallback */
+            background: #f0f0f0;
+            color: #444;
+        }
     </style>
 </head>
 
@@ -172,6 +216,14 @@
             <a href="{{ url_for('refresh_data') }}" class="byb-btn byb-btn--sm byb-btn--outline"
                 style="font-size: 0.8rem;">Sync Data</a>
         </div>
+    </div>
+
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterBy('all', this)">All</button>
+        {% for person in speakers %}
+        <button class="filter-btn" onclick="filterBy('{{ person }}', this)" data-person="{{ person }}">{{ person
+            }}</button>
+        {% endfor %}
     </div>
 
     <div class="container">
@@ -191,9 +243,10 @@
 
             <div class="card-grid">
                 {% for take in takes %}
-                <div class="audio-card" onclick="playAudio(this, '{{ url_for('static', path=take.drive_url) }}')">
+                <div class="audio-card" data-person="{{ take.person }}"
+                    onclick="playAudio(this, '{{ url_for('static', path=take.drive_url) }}')">
                     <div class="card-header">
-                        <span class="person-tag">{{ take.person }}</span>
+                        <span class="person-tag" data-person="{{ take.person }}">{{ take.person }}</span>
                         <!-- <a href="{{ url_for('static', path=take.drive_url) }}" download class="download-link" onclick="event.stopPropagation()">⬇</a> -->
                     </div>
 
@@ -213,6 +266,97 @@
     </div>
 
     <script>
+        // Color Palette for Speakers
+        const colors = [
+            ['#e3f2fd', '#1565c0'], // Blue
+            ['#f3e5f5', '#7b1fa2'], // Purple
+            ['#e8f5e9', '#2e7d32'], // Green
+            ['#fff3e0', '#ef6c00'], // Orange
+            ['#ffebee', '#c62828'], // Red
+            ['#e0f7fa', '#00838f'], // Cyan
+            ['#fff8e1', '#f9a825'], // Amber
+            ['#eceff1', '#455a64']  // Blue Grey
+        ];
+
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return Math.abs(hash);
+        }
+
+        function colorizeElements() {
+            document.querySelectorAll('[data-person]').forEach(el => {
+                const person = el.getAttribute('data-person');
+                if (!person) return;
+
+                const colorIdx = stringToColor(person) % colors.length;
+                const [bg, fg] = colors[colorIdx];
+
+                if (el.classList.contains('person-tag')) {
+                    el.style.backgroundColor = bg;
+                    el.style.color = fg;
+                } else if (el.classList.contains('filter-btn')) {
+                    // If it is active, we might want to override?
+                    // Let's just set the border left for everyone, active state overrides background
+                    el.style.borderLeft = `4px solid ${fg}`;
+                    if (el.classList.contains('active')) {
+                        el.style.backgroundColor = '#333';
+                        el.style.color = 'white';
+                        el.style.borderLeft = `4px solid ${fg}`; // Keep the color hint even when active? Or remove?
+                    } else {
+                        el.style.backgroundColor = '#eee';
+                        el.style.color = '#555';
+                    }
+                }
+            });
+        }
+
+        function filterBy(person, btn) {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                if (currentCard) { // Added check for currentCard
+                    currentCard.classList.remove('playing');
+                    let prevText = currentCard.querySelector('.play-text');
+                    if (prevText) prevText.textContent = "▶ Play";
+                }
+                currentAudio = null;
+                currentCard = null;
+            }
+
+            // Update Buttons
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+            colorizeElements(); // Re-apply styles
+
+            // Filter Cards
+            const cards = document.querySelectorAll('.audio-card');
+            cards.forEach(card => {
+                if (person === 'all' || card.getAttribute('data-person') === person) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Hide Empty Sections
+            document.querySelectorAll('.section-block').forEach(section => {
+                let hasVisible = false;
+                section.querySelectorAll('.audio-card').forEach(c => {
+                    // We just set style.display, so we can check it
+                    if (c.style.display !== 'none') hasVisible = true;
+                });
+                section.style.display = hasVisible ? 'block' : 'none';
+            });
+        }
+
+        // Init
+        colorizeElements();
+
         let currentAudio = null;
         let currentCard = null;
 

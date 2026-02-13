@@ -94,10 +94,6 @@ def run_sync():
     print("Starting Sync...")
     sync_script(client)
     sync_metadata(client)
-    # sync_audio(client) # Optional: syncing audio might take too long for a web request? 
-    # User said "not syncing", likely referring to metadata/script updates. 
-    # Audio syncing could timeout a web request. 
-    # Let's include it for now but be aware.
     sync_audio(client)
     
     print("\n🎉 Sync Complete!")
