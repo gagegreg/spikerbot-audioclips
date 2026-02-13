@@ -196,12 +196,83 @@
             opacity: 0.8;
         }
 
-        /* Dynamic Tag Colors */
         .person-tag {
-            /* Now handled by inline style or JS? Let's use JS to inject style for consistency */
-            /* Fallback */
             background: #f0f0f0;
             color: #444;
+        }
+
+        /* Rating & Auth Styles */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .auth-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-logout {
+            background: #eee;
+            color: #333;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+        }
+
+        .star-btn {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #ccc;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .star-btn.active {
+            color: gold;
+        }
+
+        .star-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .rating-star {
+            cursor: pointer;
+            color: #ddd;
+            font-size: 1rem;
+        }
+
+        .rating-star.filled {
+            color: orange;
         }
     </style>
 </head>
@@ -212,9 +283,21 @@
         <div class="byb-logo">
             <h2 style="margin:0; font-weight:700; color: #111;">Audio Script Preview</h2>
         </div>
-        <div>
+
+        <div style="display: flex; gap: 16px; align-items: center;">
+            {% if user %}
+            <div class="user-profile">
+                <img src="{{ user.picture }}" alt="Profile" class="user-avatar"
+                    title="{{ user.name }} ({{ user.email }})">
+                <!-- <span style="font-size:0.9rem; font-weight:500;">{{ user.name }}</span> -->
+                <a href="/logout" class="auth-btn btn-logout">Logout</a>
+            </div>
+            <!-- Only show manual sync if logged in? Or always? Keeping it always for now but maybe styled differently -->
             <a href="{{ url_for('refresh_data') }}" class="byb-btn byb-btn--sm byb-btn--outline"
                 style="font-size: 0.8rem;">Sync Data</a>
+            {% else %}
+            <a href="/login" class="auth-btn btn-login">Login</a>
+            {% endif %}
         </div>
     </div>
 
@@ -257,6 +340,30 @@
                     <div class="play-overlay">
                         <span class="play-text">▶ Play</span>
                     </div>
+
+                    {% if user %}
+                    {% set rating_data = user_ratings.get(take.filename, {}) %}
+                    <div class="card-actions" onclick="event.stopPropagation()">
+                        <!-- Star -->
+                        <button class="star-btn {% if rating_data.get('starred') %}active{% endif %}"
+                            onclick="toggleStar(this, '{{ take.filename }}')" title="Star this voice">
+                            ★
+                        </button>
+
+                        <!-- Rating 1-5 -->
+                        <div class="rating-stars" data-filename="{{ take.filename }}">
+                            {% set current_rating = rating_data.get('rating', 0) %}
+                            {% for i in range(1, 6) %}
+                            <span class="rating-star {% if i <= current_rating %}filled{% endif %}"
+                                onclick="setRating(this, '{{ take.filename }}', {{ i }})">★</span>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Download -->
+                        <a href="{{ url_for('static', path=take.drive_url) }}" download class="byb-btn--sm"
+                            style="text-decoration:none; color:#555; font-size:1.2rem;" title="Download">⬇</a>
+                    </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -419,6 +526,54 @@
                 card.style.background = "#ffebee";
                 if (playText) playText.textContent = "❌ Error";
             };
+        }
+
+        // --- Rating & Starring Logic ---
+
+        async function sendRate(filename, rating, starred) {
+            try {
+                const res = await fetch('/api/rate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename, rating, starred })
+                });
+                if (!res.ok) alert("Failed to save.");
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function toggleStar(btn, filename) {
+            const isActive = btn.classList.contains('active');
+            const newState = !isActive;
+
+            if (newState) btn.classList.add('active');
+            else btn.classList.remove('active');
+
+            // Get current rating to preserve it
+            // We find the parent container, then rating stars
+            const parent = btn.closest('.card-actions');
+            const stars = parent.querySelectorAll('.rating-star.filled');
+            const currentRating = stars.length;
+
+            sendRate(filename, currentRating, newState);
+        }
+
+        function setRating(starSpan, filename, value) {
+            const parent = starSpan.parentElement;
+            const allStars = parent.querySelectorAll('.rating-star');
+
+            allStars.forEach((s, idx) => {
+                if (idx < value) s.classList.add('filled');
+                else s.classList.remove('filled');
+            });
+
+            // Get current starred state
+            const actionDiv = parent.closest('.card-actions');
+            const starBtn = actionDiv.querySelector('.star-btn');
+            const isStarred = starBtn.classList.contains('active');
+
+            sendRate(filename, value, isStarred);
         }
     </script>
 

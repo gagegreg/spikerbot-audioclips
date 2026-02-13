@@ -5,3 +5,6 @@ google-api-python-client==2.155.0
 jinja2
 python-multipart
 python-docx
+authlib
+itsdangerous
+httpx
