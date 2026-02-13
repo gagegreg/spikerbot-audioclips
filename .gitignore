@@ -7,3 +7,4 @@ static/audio/*
 !static/audio/.keep
 data/script.txt
 data/metadata.json
+token.json

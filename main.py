@@ -52,8 +52,8 @@ async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "sections": sorted_sections})
 
 @app.get("/refresh")
-async def refresh_data():
-    return RedirectResponse(url="/")
+async def refresh_data(request: Request):
+    return RedirectResponse(url=request.url_for("read_root"))
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

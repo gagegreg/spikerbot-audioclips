@@ -7,8 +7,8 @@
     <title>Audio Script Preview</title>
 
     <!-- BYB Styles -->
-    <link rel="stylesheet" href="/static/css/byb.css">
-    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/byb.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/variables.css') }}">
     <!-- Using Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
@@ -169,7 +169,8 @@
             <h2 style="margin:0; font-weight:700; color: #111;">Audio Script Preview</h2>
         </div>
         <div>
-            <a href="/refresh" class="byb-btn byb-btn--sm byb-btn--outline" style="font-size: 0.8rem;">Sync Data</a>
+            <a href="{{ url_for('refresh_data') }}" class="byb-btn byb-btn--sm byb-btn--outline"
+                style="font-size: 0.8rem;">Sync Data</a>
         </div>
     </div>
 
@@ -190,10 +191,10 @@
 
             <div class="card-grid">
                 {% for take in takes %}
-                <div class="audio-card" onclick="playAudio(this, '{{ take.drive_url }}')">
+                <div class="audio-card" onclick="playAudio(this, '{{ url_for('static', path=take.drive_url) }}')">
                     <div class="card-header">
                         <span class="person-tag">{{ take.person }}</span>
-                        <!-- <a href="{{ take.drive_url }}" download class="download-link" onclick="event.stopPropagation()">⬇</a> -->
+                        <!-- <a href="{{ url_for('static', path=take.drive_url) }}" download class="download-link" onclick="event.stopPropagation()">⬇</a> -->
                     </div>
 
                     <div style="margin-bottom: 12px;">
@@ -219,7 +220,10 @@
             let playText = card.querySelector('.play-text');
 
             // Stop if clicking the same currently playing card
-            if (currentAudio && currentAudio.src.endsWith(url.replace(/^\//, '')) && !currentAudio.paused) {
+            // Note: url might be relative or full path, we check endsWith
+            // But with url_for + root_path, it might be /audio/static/...
+
+            if (currentAudio && currentAudio.src.endsWith(url) && !currentAudio.paused) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
                 card.classList.remove('playing');

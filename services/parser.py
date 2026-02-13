@@ -61,7 +61,8 @@ class ScriptParser:
             cname = clean_name(meta.filename)
             if cname in local_map:
                 actual_filename = local_map[cname]
-                meta.drive_url = f"/static/audio/{actual_filename}"
+                # Store path relative to 'static' dir for url_for usage
+                meta.drive_url = f"audio/{actual_filename}"
                 
                 # Only add if we have the file? Or add anyway? 
                 # User wants to preview, so we likely only want ones we have.
