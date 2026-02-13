@@ -290,13 +290,13 @@
                 <img src="{{ user.picture }}" alt="Profile" class="user-avatar"
                     title="{{ user.name }} ({{ user.email }})">
                 <!-- <span style="font-size:0.9rem; font-weight:500;">{{ user.name }}</span> -->
-                <a href="/logout" class="auth-btn btn-logout">Logout</a>
+                <a href="{{ url_for('logout') }}" class="auth-btn btn-logout">Logout</a>
             </div>
             <!-- Only show manual sync if logged in? Or always? Keeping it always for now but maybe styled differently -->
             <a href="{{ url_for('refresh_data') }}" class="byb-btn byb-btn--sm byb-btn--outline"
                 style="font-size: 0.8rem;">Sync Data</a>
             {% else %}
-            <a href="/login" class="auth-btn btn-login">Login</a>
+            <a href="{{ url_for('login') }}" class="auth-btn btn-login">Login</a>
             {% endif %}
         </div>
     </div>
@@ -532,12 +532,16 @@
 
         async function sendRate(filename, rating, starred) {
             try {
-                const res = await fetch('/api/rate', {
+                const res = await fetch("{{ url_for('rate_audio') }}", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ filename, rating, starred })
                 });
-                if (!res.ok) alert("Failed to save.");
+                if (!res.ok) {
+                    const text = await res.text();
+                    alert(`Failed to save. Status: ${res.status} ${res.statusText}\n${text}`);
+                    console.error("Save failed", res.status, res.statusText, text);
+                }
             } catch (e) {
                 console.error(e);
             }

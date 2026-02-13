@@ -165,32 +165,36 @@ async def auth(request: Request):
         token = await oauth.auth0.authorize_access_token(request)
     except Exception as e:
         # Handle error (e.g. user cancelled)
-        return RedirectResponse(url="/")
+        return RedirectResponse(url=request.url_for("read_root"))
         
     user = token.get("userinfo")
     if user:
         request.session["user"] = user
         
-    return RedirectResponse(url="/")
+    return RedirectResponse(url=request.url_for("read_root"))
 
 @app.get("/logout")
 async def logout(request: Request):
     request.session.pop("user", None)
-    return RedirectResponse(url="/")
+    return RedirectResponse(url=request.url_for("read_root"))
 
 # --- API Routes ---
 
 @app.post("/api/rate")
 async def rate_audio(request: Request, payload: RatingRequest):
+    print(f"Received rating request: {payload}")
     user = request.session.get("user")
     if not user:
+        print("User not authenticated in request.")
         raise HTTPException(status_code=401, detail="Not authenticated")
     
     email = user.get("email")
     if not email:
+        print("User email not found in session.")
         raise HTTPException(status_code=400, detail="User email not found")
         
     data = get_ratings()
+    print(f"Current ratings data size: {len(data)}")
     
     if payload.filename not in data:
         data[payload.filename] = {}
