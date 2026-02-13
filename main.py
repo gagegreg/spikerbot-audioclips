@@ -51,8 +51,19 @@ async def read_root(request: Request):
 
     return templates.TemplateResponse("index.html", {"request": request, "sections": sorted_sections})
 
+from sync_assets import run_sync
+
 @app.get("/refresh")
 async def refresh_data(request: Request):
+    print("Refresh triggered: running sync...")
+    try:
+        run_sync()
+    except Exception as e:
+        print(f"Error during manual sync: {e}")
+        # Could return an error page/message, but redirecting to root 
+        # will show old data or partial data, which is better than crash.
+        pass
+        
     return RedirectResponse(url=request.url_for("read_root"))
 
 if __name__ == "__main__":

@@ -86,15 +86,22 @@ def sync_audio(client):
     except Exception as e:
         print(f"❌ Failed to sync audio: {e}")
 
-def main():
+def run_sync():
+    """Runs the full sync process."""
     ensure_dirs()
     client = GoogleClient()
     
+    print("Starting Sync...")
     sync_script(client)
     sync_metadata(client)
+    # sync_audio(client) # Optional: syncing audio might take too long for a web request? 
+    # User said "not syncing", likely referring to metadata/script updates. 
+    # Audio syncing could timeout a web request. 
+    # Let's include it for now but be aware.
     sync_audio(client)
     
     print("\n🎉 Sync Complete!")
+    return {"status": "success"}
 
 if __name__ == "__main__":
-    main()
+    run_sync()
