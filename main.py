@@ -33,6 +33,10 @@ from fastapi.responses import RedirectResponse
 # Globals
 DATA_DIR = "data"
 META_PATH = os.path.join(DATA_DIR, "metadata.json")
+SHEET_DUMP_PATH = os.path.join(DATA_DIR, "../sheet_dump.json") # It's in root based on view_file? No, view_file showed it in root of scratch? 
+# view_file for sheet_dump.json was /Users/gagegreg/Documents/rhub/scratch/audio_preview_app/sheet_dump.json
+# main.py is in same dir.
+SHEET_DUMP_PATH = "sheet_dump.json"
 RATINGS_PATH = os.path.join(DATA_DIR, "ratings.json")
 AUDIO_DIR = "static/audio"
 
@@ -85,6 +89,25 @@ async def read_root(request: Request):
     # 2. Parse Metadata
     parser = ScriptParser()
     audio_metas = parser.parse_sheet_rows(meta_rows)
+    
+    # 2b. Load Quotes from sheet_dump.json if available
+    quotes_map = {}
+    if os.path.exists(SHEET_DUMP_PATH):
+        try:
+            with open(SHEET_DUMP_PATH, 'r') as f:
+                dump_rows = json.load(f)
+                # Row: File, Person, Start, Stop, Quote
+                for r in dump_rows[1:]: # Skip header
+                    if len(r) >= 5:
+                        quotes_map[r[0]] = r[4]
+        except Exception as e:
+            print(f"Error loading sheet_dump: {e}")
+            
+    # Inject quotes
+    for meta in audio_metas:
+        if meta.filename in quotes_map:
+            meta.quote = quotes_map[meta.filename]
+
     
     # 3. List Local Audio Files
     local_audio_files = []

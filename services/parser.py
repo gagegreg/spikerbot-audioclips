@@ -11,6 +11,7 @@ class AudioMeta:
     start: str
     stop: str
     section: str
+    quote: str = ""
     drive_url: str = ""
 
 class ScriptParser:

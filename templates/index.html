@@ -105,6 +105,18 @@
             color: #aaa;
         }
 
+        .quote-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #333;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
         /* Play Button (Custom) */
         .play-overlay {
             width: 100%;
@@ -334,7 +346,12 @@
                     </div>
 
                     <div style="margin-bottom: 12px;">
+                        {% if take.quote %}
+                        <div class="quote-text" title="{{ take.quote }}">"{{ take.quote }}"</div>
+                        <div class="filename" style="font-size: 0.65rem;">{{ take.filename }}</div>
+                        {% else %}
                         <span class="filename">{{ take.filename }}</span>
+                        {% endif %}
                     </div>
 
                     <div class="play-overlay">
@@ -360,8 +377,10 @@
                         </div>
 
                         <!-- Download -->
+                        <!-- Download -->
                         <a href="{{ url_for('static', path=take.drive_url) }}" download class="byb-btn--sm"
-                            style="text-decoration:none; color:#555; font-size:1.2rem;" title="Download">⬇</a>
+                            style="text-decoration:none; color:#555; font-size:1.2rem;"
+                            title="Download {{ take.filename }}">⬇</a>
                     </div>
                     {% endif %}
                 </div>
