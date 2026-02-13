@@ -31,12 +31,22 @@ class ScriptParser:
             if len(r) < 5: 
                 continue
             
+            # Columns: 0:File, 1:Person, 2:Start, 3:Stop, 4:Section, 5:Option, 6:Quote
+            
+            quote_text = ""
+            if len(r) >= 7:
+                quote_text = r[6]
+            elif len(r) == 5:
+                # Fallback for old style if valid? Or should we strict?
+                pass
+            
             meta = AudioMeta(
                 filename=r[0],
                 person=r[1],
                 start=r[2],
                 stop=r[3],
-                section=r[4]
+                section=r[4],
+                quote=quote_text
             )
             metas.append(meta)
         return metas

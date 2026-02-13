@@ -90,25 +90,6 @@ async def read_root(request: Request):
     parser = ScriptParser()
     audio_metas = parser.parse_sheet_rows(meta_rows)
     
-    # 2b. Load Quotes from sheet_dump.json if available
-    quotes_map = {}
-    if os.path.exists(SHEET_DUMP_PATH):
-        try:
-            with open(SHEET_DUMP_PATH, 'r') as f:
-                dump_rows = json.load(f)
-                # Row: File, Person, Start, Stop, Quote
-                for r in dump_rows[1:]: # Skip header
-                    if len(r) >= 5:
-                        quotes_map[r[0]] = r[4]
-        except Exception as e:
-            print(f"Error loading sheet_dump: {e}")
-            
-    # Inject quotes
-    for meta in audio_metas:
-        if meta.filename in quotes_map:
-            meta.quote = quotes_map[meta.filename]
-
-    
     # 3. List Local Audio Files
     local_audio_files = []
     if os.path.exists(AUDIO_DIR):

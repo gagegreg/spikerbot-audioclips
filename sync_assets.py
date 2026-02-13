@@ -34,7 +34,7 @@ def sync_script(client):
 def sync_metadata(client):
     print("Downloading Metadata (Sheet)...")
     try:
-        rows = client.get_sheet_values(SHEET_ID, "A1:E1000")
+        rows = client.get_sheet_values(SHEET_ID, "A1:G1000")
         with open(os.path.join(DATA_DIR, 'metadata.json'), 'w') as f:
             json.dump(rows, f, indent=2)
         print("✅ Metadata saved to data/metadata.json")
