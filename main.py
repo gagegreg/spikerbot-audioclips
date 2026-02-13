@@ -15,7 +15,7 @@ from pydantic import BaseModel
 
 import uvicorn
 
-app = FastAPI()
+app = FastAPI(root_path="/audio")
 
 # Session Middleware (Required for Auth0)
 # In production, use a strong secret key from env
