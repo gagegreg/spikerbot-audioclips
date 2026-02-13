@@ -12,15 +12,28 @@ SCOPES = [
     'https://www.googleapis.com/auth/spreadsheets.readonly'
 ]
 
-SERVICE_ACCOUNT_FILE = '/Users/gagegreg/Documents/rhub/api.backyardbrains.com/api.googlekey.json'
+# Use relative path for production/portability
+SERVICE_ACCOUNT_FILE = 'api.googlekey.json'
 
 class GoogleClient:
-    def __init__(self, service_account_path=SERVICE_ACCOUNT_FILE):
+    def __init__(self, service_account_path=None):
         self.creds = None
+        
+        # If no path provided, use default relative path
+        if not service_account_path:
+            service_account_path = SERVICE_ACCOUNT_FILE
+            
+        # Check current dir or parent dirs (helpful for development flexibility)
+        if not os.path.exists(service_account_path):
+             # Try absolute path from before if needed? No, let's keep it clean.
+             # Maybe check one level up?
+             if os.path.exists(os.path.join("..", service_account_path)):
+                 service_account_path = os.path.join("..", service_account_path)
+        
         if os.path.exists(service_account_path):
             self.creds = Credentials.from_service_account_file(service_account_path, scopes=SCOPES)
         else:
-            raise Exception(f"Service account file not found at {service_account_path}")
+            raise Exception(f"Service account file not found: {service_account_path}")
 
         self.docs_service = build('docs', 'v1', credentials=self.creds)
         self.drive_service = build('drive', 'v3', credentials=self.creds)
