@@ -286,11 +286,27 @@
         }
 
         function colorizeElements() {
+            // Explicit mapping for known speakers
+            const fixedMap = {
+                'alex': 0,  // Blue
+                'chris': 1, // Yellow
+                'greg': 2   // Green
+            };
+
             document.querySelectorAll('[data-person]').forEach(el => {
                 const person = el.getAttribute('data-person');
                 if (!person) return;
 
-                const colorIdx = stringToColor(person) % colors.length;
+                let colorIdx;
+                const lower = person.toLowerCase();
+
+                if (lower in fixedMap) {
+                    colorIdx = fixedMap[lower];
+                } else {
+                    // Fallback for others
+                    colorIdx = stringToColor(person) % colors.length;
+                }
+
                 const [bg, fg] = colors[colorIdx];
 
                 if (el.classList.contains('person-tag')) {
