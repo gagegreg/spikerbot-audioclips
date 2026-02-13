@@ -1,0 +1,144 @@
+/* ==========================================================================
+   BYB Design System - CSS Variables
+   Generated from Figma tokens
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     COLORS - Solid
+     ========================================================================== */
+  --byb-color-dark: #000000;
+  --byb-color-orange: #ff805f;
+  --byb-color-purpure: #FFD90F; /* Simpsons Yellow */
+  --byb-color-yellow: #ffc600;
+  --byb-color-green: #00aa4f;
+  --byb-color-blue: #0093ff;
+  --byb-color-white: #ffffff;
+
+  /* ==========================================================================
+     COLORS - Support (Hover, Tinted)
+     ========================================================================== */
+  --byb-color-hover-orange: #f07859;
+  --byb-color-tinted-orange: #ffcdbf;
+  --byb-color-light-tinted-orange: #ffe3db;
+  --byb-color-very-light-tinted-orange: #fff5f2;
+  --byb-color-tinted-purpure: #FFF4B8; /* Light Simpsons Yellow */
+  --byb-color-tinted-yellow: #ffe899;
+  --byb-color-tinted-green: #c8ebd8;
+  --byb-color-tinted-blue: #c8e6ff;
+
+  /* ==========================================================================
+     COLORS - Grey Scale
+     ========================================================================== */
+  --byb-color-grey-text: #707070;
+  --byb-color-grey: #dbdbdb;
+  --byb-color-grey-divider: #e9e9e9;
+  --byb-color-grey-bg: #eeeeee;
+  --byb-color-grey-bg-light: #f5f5f5;
+
+  /* ==========================================================================
+     TYPOGRAPHY - Font Families
+     ========================================================================== */
+  --byb-font-display: 'Boldoa Mat', 'Impact', sans-serif;
+  --byb-font-hand: 'BYB Hand Drawn', cursive;
+  --byb-font-body: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ==========================================================================
+     TYPOGRAPHY - Font Sizes
+     ========================================================================== */
+  --byb-font-size-xs: 11px;
+  --byb-font-size-sm: 12px;
+  --byb-font-size-base: 14px;
+  --byb-font-size-md: 15px;
+  --byb-font-size-lg: 16px;
+  --byb-font-size-xl: 18px;
+  --byb-font-size-2xl: 20px;
+  --byb-font-size-3xl: 22px;
+  --byb-font-size-4xl: 24px;
+  --byb-font-size-5xl: 26px;
+  --byb-font-size-6xl: 28px;
+  --byb-font-size-7xl: 32px;
+  --byb-font-size-8xl: 36px;
+  --byb-font-size-9xl: 42px;
+  --byb-font-size-10xl: 48px;
+  --byb-font-size-11xl: 50px;
+  --byb-font-size-hero: 164px;
+
+  /* ==========================================================================
+     TYPOGRAPHY - Font Weights
+     ========================================================================== */
+  --byb-font-weight-regular: 400;
+  --byb-font-weight-medium: 500;
+  --byb-font-weight-bold: 700;
+  --byb-font-weight-black: 900;
+
+  /* ==========================================================================
+     TYPOGRAPHY - Line Heights
+     ========================================================================== */
+  --byb-line-height-tight: 1.1;
+  --byb-line-height-snug: 1.25;
+  --byb-line-height-normal: 1.5;
+  --byb-line-height-relaxed: 1.75;
+
+  /* ==========================================================================
+     TYPOGRAPHY - Letter Spacing
+     ========================================================================== */
+  --byb-letter-spacing-tight: -0.01em;
+  --byb-letter-spacing-normal: 0;
+  --byb-letter-spacing-wide: 0.018em;
+  --byb-letter-spacing-wider: 0.1em;
+
+  /* ==========================================================================
+     SPACING - 4px Base Grid
+     ========================================================================== */
+  --byb-space-0: 0;
+  --byb-space-1: 4px;
+  --byb-space-2: 8px;
+  --byb-space-3: 12px;
+  --byb-space-4: 16px;
+  --byb-space-5: 20px;
+  --byb-space-6: 24px;
+  --byb-space-8: 32px;
+  --byb-space-10: 40px;
+  --byb-space-12: 48px;
+  --byb-space-16: 64px;
+  --byb-space-20: 80px;
+  --byb-space-24: 96px;
+
+  /* ==========================================================================
+     BORDERS
+     ========================================================================== */
+  --byb-border-radius-none: 0;
+  --byb-border-radius-sm: 2px;
+  --byb-border-radius-md: 4px;
+  --byb-border-radius-lg: 6px;
+  --byb-border-radius-xl: 8px;
+  --byb-border-radius-full: 999px;
+
+  --byb-border-width-thin: 1px;
+  --byb-border-width-medium: 2px;
+
+  /* ==========================================================================
+     MOTION
+     ========================================================================== */
+  --byb-duration-instant: 0ms;
+  --byb-duration-fast: 100ms;
+  --byb-duration-normal: 200ms;
+  --byb-duration-slow: 300ms;
+  --byb-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --byb-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --byb-ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* ==========================================================================
+     SHADOWS
+     ========================================================================== */
+  --byb-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --byb-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --byb-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* ==========================================================================
+     FOCUS RING
+     ========================================================================== */
+  --byb-focus-ring: 0 0 0 2px var(--byb-color-blue);
+  --byb-focus-ring-offset: 2px;
+}

@@ -1,0 +1,496 @@
+/* ==========================================================================
+   BYB Design System - Cards
+   ========================================================================== */
+
+/* ==========================================================================
+   STORE CARD
+   Product display card for the shop
+   ========================================================================== */
+.byb-store-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--byb-color-white);
+  border-radius: var(--byb-border-radius-xl);
+  overflow: hidden;
+  transition: 
+    box-shadow var(--byb-duration-normal) var(--byb-ease-default),
+    transform var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+.byb-store-card:hover {
+  box-shadow: var(--byb-shadow-lg);
+  transform: translateY(-4px);
+}
+
+.byb-store-card__image {
+  position: relative;
+  aspect-ratio: 1;
+  background-color: var(--byb-color-grey-bg-light);
+  overflow: hidden;
+}
+
+.byb-store-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--byb-duration-slow) var(--byb-ease-default);
+}
+
+.byb-store-card:hover .byb-store-card__image img {
+  transform: scale(1.05);
+}
+
+.byb-store-card__badge {
+  position: absolute;
+  top: var(--byb-space-3);
+  left: var(--byb-space-3);
+}
+
+.byb-store-card__content {
+  padding: var(--byb-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-2);
+}
+
+.byb-store-card__category {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--byb-letter-spacing-wide);
+  color: var(--byb-color-grey-text);
+}
+
+.byb-store-card__title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: 26px;
+  line-height: 32px;
+  text-align: center;
+  color: var(--byb-color-dark);
+  margin: 0;
+}
+
+.byb-store-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.byb-store-card__title a:hover {
+  color: var(--byb-color-orange);
+}
+
+.byb-store-card__price {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-regular);
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+  color: var(--byb-color-dark);
+}
+
+.byb-store-card__price-old {
+  font-size: var(--byb-font-size-lg);
+  color: var(--byb-color-grey-text);
+  text-decoration: line-through;
+  margin-left: var(--byb-space-2);
+}
+
+/* ==========================================================================
+   EXPERIMENT CARD
+   Cards for experiments/lessons with category colors
+   ========================================================================== */
+.byb-experiment-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--byb-color-white);
+  border-radius: var(--byb-border-radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--byb-color-grey-divider);
+  transition: 
+    box-shadow var(--byb-duration-normal) var(--byb-ease-default),
+    transform var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+.byb-experiment-card:hover {
+  box-shadow: var(--byb-shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Category-specific accent bar at top */
+.byb-experiment-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: var(--byb-color-orange);
+}
+
+.byb-experiment-card--human::before {
+  background-color: var(--byb-color-yellow);
+}
+
+.byb-experiment-card--plant::before {
+  background-color: var(--byb-color-green);
+}
+
+.byb-experiment-card--invertebrate::before {
+  background-color: var(--byb-color-purpure);
+}
+
+.byb-experiment-card--neuro::before {
+  background-color: var(--byb-color-blue);
+}
+
+.byb-experiment-card__image {
+  aspect-ratio: 16/9;
+  background-color: var(--byb-color-grey-bg-light);
+  overflow: hidden;
+}
+
+.byb-experiment-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.byb-experiment-card__content {
+  padding: var(--byb-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-3);
+  flex: 1;
+}
+
+.byb-experiment-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--byb-space-2);
+}
+
+.byb-experiment-card__title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: 26px;
+  line-height: 32px;
+  color: var(--byb-color-dark);
+  margin: 0;
+}
+
+.byb-experiment-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.byb-experiment-card__title a:hover {
+  color: var(--byb-color-orange);
+}
+
+.byb-experiment-card__description {
+  font-family: var(--byb-font-body);
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--byb-color-grey-text);
+  margin: 0;
+  /* Limit to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.byb-experiment-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--byb-space-2);
+  margin-top: auto;
+}
+
+.byb-experiment-card__actions {
+  display: flex;
+  gap: var(--byb-space-3);
+  padding-top: var(--byb-space-3);
+  border-top: 1px solid var(--byb-color-grey-divider);
+}
+
+/* ==========================================================================
+   BLOG CARD
+   Article/blog post preview cards
+   ========================================================================== */
+.byb-blog-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--byb-color-white);
+  border-radius: var(--byb-border-radius-xl);
+  overflow: hidden;
+  transition: 
+    box-shadow var(--byb-duration-normal) var(--byb-ease-default),
+    transform var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+.byb-blog-card:hover {
+  box-shadow: var(--byb-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.byb-blog-card__image {
+  position: relative;
+  aspect-ratio: 16/9;
+  background-color: var(--byb-color-grey-bg-light);
+  overflow: hidden;
+}
+
+.byb-blog-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--byb-duration-slow) var(--byb-ease-default);
+}
+
+.byb-blog-card:hover .byb-blog-card__image img {
+  transform: scale(1.03);
+}
+
+.byb-blog-card__content {
+  padding: var(--byb-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-3);
+  flex: 1;
+}
+
+.byb-blog-card__date {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-sm);
+  color: var(--byb-color-grey-text);
+}
+
+.byb-blog-card__title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: 26px;
+  line-height: 32px;
+  color: var(--byb-color-dark);
+  margin: 0;
+}
+
+.byb-blog-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.byb-blog-card__title a:hover {
+  color: var(--byb-color-orange);
+}
+
+.byb-blog-card__excerpt {
+  font-family: var(--byb-font-body);
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--byb-color-grey-text);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.byb-blog-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--byb-space-2);
+}
+
+.byb-blog-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--byb-space-2);
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-md);
+  text-transform: uppercase;
+  letter-spacing: var(--byb-letter-spacing-wide);
+  color: var(--byb-color-orange);
+  text-decoration: none;
+  margin-top: auto;
+}
+
+.byb-blog-card__link:hover {
+  color: var(--byb-color-hover-orange);
+}
+
+.byb-blog-card__link svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--byb-duration-fast) var(--byb-ease-default);
+}
+
+.byb-blog-card__link:hover svg {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   GET IN TOUCH CARD
+   Contact/CTA cards
+   ========================================================================== */
+.byb-contact-card {
+  background-color: var(--byb-color-very-light-tinted-orange);
+  border-radius: var(--byb-border-radius-xl);
+  padding: var(--byb-space-8);
+  text-align: center;
+}
+
+.byb-contact-card__icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--byb-space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--byb-color-orange);
+  border-radius: var(--byb-border-radius-full);
+  color: var(--byb-color-white);
+}
+
+.byb-contact-card__icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.byb-contact-card__title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-5xl);
+  color: var(--byb-color-dark);
+  margin: 0 0 var(--byb-space-3);
+}
+
+.byb-contact-card__description {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-lg);
+  line-height: 1.5;
+  color: var(--byb-color-grey-text);
+  margin: 0 0 var(--byb-space-6);
+}
+
+.byb-contact-card__link {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-xl);
+  color: var(--byb-color-orange);
+  text-decoration: none;
+}
+
+.byb-contact-card__link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   WORKSHOP CARD
+   Registration card for workshop system
+   ========================================================================== */
+.byb-workshop-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--byb-color-white);
+  border: 1px solid var(--byb-color-grey-divider);
+  border-radius: var(--byb-border-radius-xl);
+  overflow: hidden;
+  transition: 
+    box-shadow var(--byb-duration-normal) var(--byb-ease-default),
+    transform var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+.byb-workshop-card:hover {
+  box-shadow: var(--byb-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.byb-workshop-card__content {
+  padding: var(--byb-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-4);
+}
+
+.byb-workshop-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--byb-space-3);
+}
+
+.byb-workshop-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--byb-space-2);
+}
+
+.byb-workshop-card__language {
+  flex-shrink: 0;
+}
+
+.byb-workshop-card__title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-4xl);
+  line-height: 1.25;
+  color: var(--byb-color-dark);
+  margin: 0;
+}
+
+.byb-workshop-card__description {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-lg);
+  line-height: 1.5;
+  color: var(--byb-color-grey-text);
+  margin: 0;
+}
+
+.byb-workshop-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--byb-space-2);
+}
+
+.byb-workshop-card__actions {
+  display: flex;
+  gap: var(--byb-space-3);
+  margin-top: auto;
+}
+
+/* Workshop card with image variant */
+.byb-workshop-card--with-image {
+  flex-direction: row;
+}
+
+.byb-workshop-card--with-image .byb-workshop-card__image {
+  width: 200px;
+  flex-shrink: 0;
+  background-color: var(--byb-color-grey-bg-light);
+}
+
+.byb-workshop-card--with-image .byb-workshop-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .byb-workshop-card--with-image {
+    flex-direction: column;
+  }
+  
+  .byb-workshop-card--with-image .byb-workshop-card__image {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+}
+

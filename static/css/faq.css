@@ -1,0 +1,372 @@
+/* ==========================================================================
+   BYB Design System - FAQ Components
+   ========================================================================== */
+
+/* ==========================================================================
+   FAQ CONTAINER
+   ========================================================================== */
+.byb-faqs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-3);
+}
+
+.byb-faqs--bordered {
+  border: 1px solid var(--byb-color-grey-divider);
+  border-radius: var(--byb-border-radius-xl);
+  overflow: hidden;
+}
+
+.byb-faqs--bordered .byb-faq {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.byb-faqs--bordered .byb-faq:last-child {
+  border-bottom: none;
+}
+
+/* ==========================================================================
+   FAQ LINE (Accordion Item)
+   ========================================================================== */
+.byb-faq {
+  background-color: var(--byb-color-white);
+  border: 1px solid var(--byb-color-dark);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.byb-faq__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--byb-space-4);
+  
+  width: 100%;
+  height: 80px;
+  padding: 0 24px;
+  
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: 26px;
+  line-height: 32px;
+  text-align: left;
+  color: var(--byb-color-dark);
+  
+  background: var(--byb-color-white);
+  border: none;
+  cursor: pointer;
+  
+  transition: color var(--byb-duration-fast) var(--byb-ease-default);
+}
+
+.byb-faq__header:hover {
+  color: var(--byb-color-orange);
+}
+
+.byb-faq__header:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--byb-color-blue);
+}
+
+.byb-faq__question {
+  flex: 1;
+}
+
+.byb-faq__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--byb-color-orange);
+  
+  transition: transform var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+.byb-faq__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.byb-faq--open .byb-faq__icon {
+  transform: rotate(180deg);
+}
+
+.byb-faq__content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+.byb-faq--open .byb-faq__content {
+  grid-template-rows: 1fr;
+}
+
+.byb-faq__answer {
+  overflow: hidden;
+}
+
+.byb-faq__answer-inner {
+  padding: 0 24px 24px;
+  
+  font-family: var(--byb-font-body);
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--byb-color-dark);
+}
+
+.byb-faq__answer-inner p {
+  margin: 0 0 var(--byb-space-4);
+}
+
+.byb-faq__answer-inner p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   FAQ SIMPLE (Non-collapsible)
+   ========================================================================== */
+.byb-faq-simple {
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-3);
+}
+
+.byb-faq-simple__question {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-xl);
+  color: var(--byb-color-dark);
+  margin: 0;
+}
+
+.byb-faq-simple__answer {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-lg);
+  line-height: 1.6;
+  color: var(--byb-color-grey-text);
+  margin: 0;
+}
+
+/* ==========================================================================
+   QUOTE
+   ========================================================================== */
+.byb-quote {
+  position: relative;
+  padding: 40px 80px;
+  
+  background-color: var(--byb-color-light-tinted-orange);
+  border-radius: 24px;
+}
+
+.byb-quote::before {
+  content: '"';
+  position: absolute;
+  top: var(--byb-space-4);
+  left: var(--byb-space-5);
+  
+  font-family: var(--byb-font-display);
+  font-size: 80px;
+  line-height: 1;
+  color: var(--byb-color-orange);
+  opacity: 0.5;
+}
+
+.byb-quote__text {
+  font-family: var(--byb-font-body);
+  font-style: italic;
+  font-size: 26px;
+  line-height: 40px;
+  color: var(--byb-color-dark);
+  margin: 0 0 var(--byb-space-4);
+}
+
+.byb-quote__attribution {
+  display: flex;
+  align-items: center;
+  gap: var(--byb-space-3);
+}
+
+.byb-quote__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--byb-color-grey);
+}
+
+.byb-quote__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.byb-quote__author {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-lg);
+  color: var(--byb-color-dark);
+  margin: 0;
+}
+
+.byb-quote__role {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-md);
+  color: var(--byb-color-grey-text);
+  margin: 0;
+}
+
+/* Quote - Simple variant */
+.byb-quote--simple {
+  padding: var(--byb-space-6);
+  padding-left: var(--byb-space-6);
+  background-color: transparent;
+  border-left: 4px solid var(--byb-color-orange);
+}
+
+.byb-quote--simple::before {
+  display: none;
+}
+
+.byb-quote--simple .byb-quote__text {
+  font-size: var(--byb-font-size-3xl);
+}
+
+/* ==========================================================================
+   ALERT / CALLOUT
+   ========================================================================== */
+.byb-alert {
+  display: flex;
+  gap: var(--byb-space-3);
+  padding: var(--byb-space-4);
+  
+  border-radius: var(--byb-border-radius-lg);
+  background-color: var(--byb-color-grey-bg-light);
+}
+
+.byb-alert__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--byb-color-dark);
+}
+
+.byb-alert__content {
+  flex: 1;
+}
+
+.byb-alert__title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-lg);
+  color: var(--byb-color-dark);
+  margin: 0 0 var(--byb-space-1);
+}
+
+.byb-alert__text {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-md);
+  line-height: 1.5;
+  color: var(--byb-color-grey-text);
+  margin: 0;
+}
+
+/* Alert variants */
+.byb-alert--info {
+  background-color: var(--byb-color-tinted-blue);
+}
+
+.byb-alert--info .byb-alert__icon {
+  color: var(--byb-color-blue);
+}
+
+.byb-alert--success {
+  background-color: var(--byb-color-tinted-green);
+}
+
+.byb-alert--success .byb-alert__icon {
+  color: var(--byb-color-green);
+}
+
+.byb-alert--warning {
+  background-color: var(--byb-color-tinted-yellow);
+}
+
+.byb-alert--warning .byb-alert__icon {
+  color: #b8860b; /* Darker yellow for accessibility */
+}
+
+.byb-alert--error {
+  background-color: var(--byb-color-light-tinted-orange);
+}
+
+.byb-alert--error .byb-alert__icon {
+  color: var(--byb-color-orange);
+}
+
+/* ==========================================================================
+   TABLE
+   ========================================================================== */
+.byb-table-wrapper {
+  overflow-x: auto;
+}
+
+.byb-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.byb-table th,
+.byb-table td {
+  padding: var(--byb-space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--byb-color-grey-divider);
+}
+
+.byb-table th {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--byb-letter-spacing-wide);
+  color: var(--byb-color-grey-text);
+  background-color: var(--byb-color-grey-bg-light);
+}
+
+.byb-table td {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-md);
+  color: var(--byb-color-dark);
+}
+
+.byb-table tbody tr:hover {
+  background-color: var(--byb-color-grey-bg-light);
+}
+
+/* Striped variant */
+.byb-table--striped tbody tr:nth-child(even) {
+  background-color: var(--byb-color-grey-bg-light);
+}
+
+/* Bordered variant */
+.byb-table--bordered {
+  border: 1px solid var(--byb-color-grey-divider);
+  border-radius: var(--byb-border-radius-lg);
+  overflow: hidden;
+}
+
+.byb-table--bordered th,
+.byb-table--bordered td {
+  border-right: 1px solid var(--byb-color-grey-divider);
+}
+
+.byb-table--bordered th:last-child,
+.byb-table--bordered td:last-child {
+  border-right: none;
+}
+

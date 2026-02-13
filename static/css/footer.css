@@ -1,0 +1,405 @@
+/* ==========================================================================
+   BYB Design System - Footer
+   ========================================================================== */
+
+/* ==========================================================================
+   FOOTER BASE
+   ========================================================================== */
+.byb-footer {
+  background-color: var(--byb-color-dark);
+  color: var(--byb-color-white);
+  padding: var(--byb-space-16) 0 var(--byb-space-8);
+}
+
+.byb-footer--light {
+  background-color: var(--byb-color-grey-bg-light);
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   FOOTER LAYOUT
+   ========================================================================== */
+.byb-footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--byb-space-4);
+}
+
+.byb-footer__grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: var(--byb-space-10);
+  margin-bottom: var(--byb-space-12);
+}
+
+@media (max-width: 1024px) {
+  .byb-footer__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .byb-footer__grid {
+    grid-template-columns: 1fr;
+    gap: var(--byb-space-8);
+  }
+}
+
+/* ==========================================================================
+   FOOTER BRAND SECTION
+   ========================================================================== */
+.byb-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-5);
+}
+
+.byb-footer__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--byb-space-3);
+  text-decoration: none;
+}
+
+.byb-footer__logo img {
+  height: 48px;
+  width: auto;
+}
+
+.byb-footer__logo-text {
+  font-family: var(--byb-font-display);
+  font-size: var(--byb-font-size-4xl);
+  font-weight: var(--byb-font-weight-bold);
+  color: var(--byb-color-white);
+  text-transform: uppercase;
+}
+
+.byb-footer--light .byb-footer__logo-text {
+  color: var(--byb-color-dark);
+}
+
+.byb-footer__tagline {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-lg);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 300px;
+}
+
+.byb-footer--light .byb-footer__tagline {
+  color: var(--byb-color-grey-text);
+}
+
+/* ==========================================================================
+   FOOTER NAVIGATION
+   ========================================================================== */
+.byb-footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-4);
+}
+
+.byb-footer__nav-title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-md);
+  text-transform: uppercase;
+  letter-spacing: var(--byb-letter-spacing-wide);
+  color: var(--byb-color-white);
+  margin: 0 0 var(--byb-space-2);
+}
+
+.byb-footer--light .byb-footer__nav-title {
+  color: var(--byb-color-dark);
+}
+
+.byb-footer__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--byb-space-3);
+}
+
+.byb-footer__nav-link {
+  font-family: var(--byb-font-body);
+  font-size: 22px;
+  line-height: 36px;
+  letter-spacing: -0.22px;
+  color: var(--byb-color-white);
+  text-decoration: none;
+  
+  transition: color var(--byb-duration-fast) var(--byb-ease-default);
+}
+
+.byb-footer__nav-link:hover {
+  color: var(--byb-color-orange);
+}
+
+.byb-footer--light .byb-footer__nav-link {
+  color: var(--byb-color-grey-text);
+}
+
+.byb-footer--light .byb-footer__nav-link:hover {
+  color: var(--byb-color-orange);
+}
+
+/* ==========================================================================
+   STAY CONNECTED SECTION
+   ========================================================================== */
+.byb-footer__connect {
+  padding-top: var(--byb-space-8);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: var(--byb-space-8);
+}
+
+.byb-footer--light .byb-footer__connect {
+  border-top-color: var(--byb-color-grey-divider);
+}
+
+.byb-footer__connect-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--byb-space-6);
+}
+
+.byb-footer__connect-title {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-3xl);
+  color: var(--byb-color-white);
+  margin: 0;
+}
+
+.byb-footer--light .byb-footer__connect-title {
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   SOCIAL LINKS
+   ========================================================================== */
+.byb-social {
+  display: flex;
+  align-items: center;
+  gap: var(--byb-space-3);
+}
+
+.byb-social__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--byb-border-radius-full);
+  color: var(--byb-color-white);
+  text-decoration: none;
+  
+  transition: 
+    background-color var(--byb-duration-fast) var(--byb-ease-default),
+    color var(--byb-duration-fast) var(--byb-ease-default);
+}
+
+.byb-social__link:hover {
+  background-color: var(--byb-color-orange);
+  color: var(--byb-color-white);
+}
+
+.byb-footer--light .byb-social__link {
+  background-color: var(--byb-color-grey-bg);
+  color: var(--byb-color-dark);
+}
+
+.byb-footer--light .byb-social__link:hover {
+  background-color: var(--byb-color-orange);
+  color: var(--byb-color-white);
+}
+
+.byb-social__link svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==========================================================================
+   NEWSLETTER
+   ========================================================================== */
+.byb-newsletter {
+  display: flex;
+  gap: var(--byb-space-3);
+  max-width: 400px;
+}
+
+.byb-newsletter__input {
+  flex: 1;
+  height: 48px;
+  padding: 0 var(--byb-space-4);
+  
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-md);
+  color: var(--byb-color-dark);
+  
+  background-color: var(--byb-color-white);
+  border: none;
+  border-radius: var(--byb-border-radius-md);
+}
+
+.byb-newsletter__input::placeholder {
+  color: var(--byb-color-grey-text);
+}
+
+.byb-newsletter__btn {
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   FOOTER BOTTOM
+   ========================================================================== */
+.byb-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--byb-space-4);
+  
+  height: 70px;
+  padding: 0;
+  margin-top: var(--byb-space-8);
+  background-color: var(--byb-color-grey);
+  margin-left: calc(-1 * var(--byb-space-4));
+  margin-right: calc(-1 * var(--byb-space-4));
+  padding-left: var(--byb-space-4);
+  padding-right: var(--byb-space-4);
+}
+
+.byb-footer--light .byb-footer__bottom {
+  border-top-color: var(--byb-color-grey-divider);
+}
+
+.byb-footer__copyright {
+  font-family: var(--byb-font-body);
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--byb-color-dark);
+  margin: 0;
+}
+
+.byb-footer--light .byb-footer__copyright {
+  color: var(--byb-color-grey-text);
+}
+
+.byb-footer__legal {
+  display: flex;
+  align-items: center;
+  gap: var(--byb-space-4);
+}
+
+.byb-footer__legal-link {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-sm);
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  
+  transition: color var(--byb-duration-fast) var(--byb-ease-default);
+}
+
+.byb-footer__legal-link:hover {
+  color: var(--byb-color-white);
+}
+
+.byb-footer--light .byb-footer__legal-link {
+  color: var(--byb-color-grey-text);
+}
+
+.byb-footer--light .byb-footer__legal-link:hover {
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   SIMPLE FOOTER (Minimal)
+   ========================================================================== */
+.byb-footer--simple {
+  padding: var(--byb-space-8) 0;
+}
+
+.byb-footer--simple .byb-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--byb-space-4);
+}
+
+/* ==========================================================================
+   POPUP BAR (Above Footer / Site-wide)
+   ========================================================================== */
+.byb-popup-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--byb-space-4);
+  
+  min-height: 56px;
+  padding: var(--byb-space-3) var(--byb-space-6);
+  
+  background-color: var(--byb-color-orange);
+  color: var(--byb-color-white);
+  
+  transform: translateY(100%);
+  transition: transform var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+.byb-popup-bar--visible {
+  transform: translateY(0);
+}
+
+.byb-popup-bar--dark {
+  background-color: var(--byb-color-dark);
+}
+
+.byb-popup-bar__text {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-md);
+  text-align: center;
+}
+
+.byb-popup-bar__close {
+  position: absolute;
+  right: var(--byb-space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--byb-color-white);
+  opacity: 0.7;
+  
+  transition: opacity var(--byb-duration-fast) var(--byb-ease-default);
+}
+
+.byb-popup-bar__close:hover {
+  opacity: 1;
+}
+
+.byb-popup-bar__close svg {
+  width: 20px;
+  height: 20px;
+}
+

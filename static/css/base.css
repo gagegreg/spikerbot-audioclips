@@ -1,0 +1,233 @@
+/* ==========================================================================
+   BYB Design System - Base Styles
+   ========================================================================== */
+
+@import url('./variables.css');
+
+/* ==========================================================================
+   RESET
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--byb-font-body);
+  font-size: var(--byb-font-size-lg);
+  line-height: var(--byb-line-height-normal);
+  color: var(--byb-color-dark);
+  background-color: var(--byb-color-white);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY - Display (Boldoa Mat)
+   ========================================================================== */
+.byb-display-1 {
+  font-family: var(--byb-font-display);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-hero);
+  line-height: 164px;
+  text-transform: uppercase;
+  letter-spacing: var(--byb-letter-spacing-normal);
+}
+
+.byb-display-2 {
+  font-family: var(--byb-font-display);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-11xl);
+  line-height: 60px;
+  text-transform: uppercase;
+}
+
+.byb-display-3 {
+  font-family: var(--byb-font-display);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-9xl);
+  line-height: 52px;
+  text-transform: uppercase;
+}
+
+.byb-display-4 {
+  font-family: var(--byb-font-display);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-7xl);
+  line-height: 38px;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY - Headings (Roboto)
+   ========================================================================== */
+.byb-h1 {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-black);
+  font-size: var(--byb-font-size-10xl);
+  line-height: 56px;
+}
+
+.byb-h2 {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-black);
+  font-size: var(--byb-font-size-9xl);
+  line-height: 50px;
+}
+
+.byb-h3 {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-8xl);
+  line-height: 38px;
+}
+
+.byb-h4 {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-7xl);
+  line-height: 34px;
+}
+
+.byb-h5 {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-5xl);
+  line-height: 32px;
+}
+
+.byb-h6 {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-4xl);
+  line-height: 32px;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY - Body (Roboto)
+   ========================================================================== */
+.byb-body-lg {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-regular);
+  font-size: var(--byb-font-size-4xl);
+  line-height: 32px;
+}
+
+.byb-body-lead {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-regular);
+  font-size: var(--byb-font-size-3xl);
+  line-height: 36px;
+  letter-spacing: var(--byb-letter-spacing-tight);
+}
+
+.byb-body {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-regular);
+  font-size: var(--byb-font-size-xl);
+  line-height: 30px;
+}
+
+.byb-body-sm {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-regular);
+  font-size: var(--byb-font-size-lg);
+  line-height: 22px;
+}
+
+.byb-body-xs {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-regular);
+  font-size: var(--byb-font-size-base);
+  line-height: 16px;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY - Special
+   ========================================================================== */
+.byb-price {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-5xl);
+  line-height: 32px;
+}
+
+.byb-quote {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-regular);
+  font-style: italic;
+  font-size: var(--byb-font-size-5xl);
+  line-height: 40px;
+}
+
+.byb-label {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-md);
+  line-height: 24px;
+  text-transform: uppercase;
+  letter-spacing: var(--byb-letter-spacing-wide);
+}
+
+.byb-caption {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-sm);
+  line-height: 18px;
+  letter-spacing: var(--byb-letter-spacing-tight);
+}
+
+.byb-tag-text {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-sm);
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   UTILITIES - Text Colors
+   ========================================================================== */
+.byb-text-dark { color: var(--byb-color-dark); }
+.byb-text-grey { color: var(--byb-color-grey-text); }
+.byb-text-orange { color: var(--byb-color-orange); }
+.byb-text-purpure { color: var(--byb-color-purpure); }
+.byb-text-yellow { color: var(--byb-color-yellow); }
+.byb-text-green { color: var(--byb-color-green); }
+.byb-text-blue { color: var(--byb-color-blue); }
+.byb-text-white { color: var(--byb-color-white); }
+
+/* ==========================================================================
+   UTILITIES - Background Colors
+   ========================================================================== */
+.byb-bg-dark { background-color: var(--byb-color-dark); }
+.byb-bg-white { background-color: var(--byb-color-white); }
+.byb-bg-grey { background-color: var(--byb-color-grey-bg); }
+.byb-bg-grey-light { background-color: var(--byb-color-grey-bg-light); }
+.byb-bg-orange { background-color: var(--byb-color-orange); }
+.byb-bg-orange-light { background-color: var(--byb-color-very-light-tinted-orange); }

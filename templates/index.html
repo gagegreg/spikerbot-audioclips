@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Script Preview</title>
+
+    <!-- BYB Styles -->
+    <link rel="stylesheet" href="/static/css/byb.css">
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <!-- Using Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f5f7;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #1d1d1f;
+        }
+
+        .container {
+            max_width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Typography & Layout */
+        .section-header {
+            margin-top: 60px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #555;
+            border-bottom: 2px solid #e1e1e1;
+            padding-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-badge {
+            background: var(--byb-color-orange);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        /* Tight Card */
+        .audio-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .audio-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+            border-color: #ccc;
+        }
+
+        .audio-card.playing {
+            border-color: var(--byb-color-blue);
+            box-shadow: 0 0 0 2px var(--byb-color-blue);
+            background: #fdfdff;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .person-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #888;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .filename {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+
+        /* Play Button (Custom) */
+        .play-overlay {
+            width: 100%;
+            height: 40px;
+            background: #f5f5f7;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .play-overlay:hover {
+            background: #eee;
+        }
+
+        .audio-card.playing .play-overlay {
+            background: var(--byb-color-blue);
+            color: white;
+        }
+
+        .play-icon {
+            margin-right: 8px;
+        }
+
+        .download-link {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .download-link:hover {
+            color: var(--byb-color-blue);
+        }
+
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toolbar">
+        <div class="byb-logo">
+            <h2 style="margin:0; font-weight:700; color: #111;">Audio Script Preview</h2>
+        </div>
+        <div>
+            <a href="/refresh" class="byb-btn byb-btn--sm byb-btn--outline" style="font-size: 0.8rem;">Sync Data</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        {% if error %}
+        <div style="padding: 20px; background: #ffebee; color: #c62828; border-radius: 8px; margin-bottom: 20px;">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+
+        {% for section_name, takes in sections.items() %}
+        <div class="section-block">
+            <div class="section-header">
+                <span class="section-badge">SEC</span>
+                {{ section_name }}
+            </div>
+
+            <div class="card-grid">
+                {% for take in takes %}
+                <div class="audio-card" onclick="playAudio(this, '{{ take.drive_url }}')">
+                    <div class="card-header">
+                        <span class="person-tag">{{ take.person }}</span>
+                        <!-- <a href="{{ take.drive_url }}" download class="download-link" onclick="event.stopPropagation()">⬇</a> -->
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <span class="filename">{{ take.filename }}</span>
+                    </div>
+
+                    <div class="play-overlay">
+                        <span class="play-text">▶ Play</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let currentCard = null;
+
+        function playAudio(card, url) {
+            let playText = card.querySelector('.play-text');
+
+            // Stop if clicking the same currently playing card
+            if (currentAudio && currentAudio.src.endsWith(url.replace(/^\//, '')) && !currentAudio.paused) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                card.classList.remove('playing');
+                if (playText) playText.textContent = "▶ Play";
+                return;
+            }
+
+            // Stop any previous audio
+            if (currentAudio) {
+                currentAudio.pause();
+                if (currentCard) {
+                    currentCard.classList.remove('playing');
+                    let prevText = currentCard.querySelector('.play-text');
+                    if (prevText) prevText.textContent = "▶ Play";
+                }
+            }
+
+            // Play new
+            currentAudio = new Audio(url);
+            currentCard = card;
+
+            card.classList.add('playing');
+            if (playText) playText.textContent = "⏹ Stop";
+
+            currentAudio.play();
+
+            currentAudio.onended = () => {
+                card.classList.remove('playing');
+                if (playText) playText.textContent = "▶ Play";
+            };
+
+            currentAudio.onerror = (e) => {
+                console.error("Audio error", e);
+                card.style.background = "#ffebee";
+                if (playText) playText.textContent = "❌ Error";
+            };
+        }
+    </script>
+
+</body>
+
+</html>

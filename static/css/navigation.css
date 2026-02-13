@@ -1,0 +1,431 @@
+/* ==========================================================================
+   BYB Design System - Navigation Components
+   ========================================================================== */
+
+/* ==========================================================================
+   TAB PRIME - Primary horizontal tab navigation
+   
+   Supports both DARK and LIGHT modes:
+   - Default: Light mode (white background)
+   - Add .byb-tabs-prime--dark for dark mode (black background)
+   
+   Structure:
+   <nav class="byb-tabs-prime">                      <!-- Light mode (default) -->
+   <nav class="byb-tabs-prime byb-tabs-prime--dark">  <!-- Dark mode -->
+     <a href="#" class="byb-tab-prime byb-tab-prime--active">Tab Name</a>
+     <a href="#" class="byb-tab-prime">Tab Name</a>
+   </nav>
+   ========================================================================== */
+.byb-tabs-prime {
+  /* Light mode colors (default) */
+  --tabs-prime-bg: var(--byb-color-white);
+  --tabs-prime-text: var(--byb-color-dark);
+  --tabs-prime-border: var(--byb-color-dark);
+  --tabs-prime-hover-bg: var(--byb-color-grey-bg);
+  
+  display: flex;
+  align-items: center;
+  background-color: var(--tabs-prime-bg);
+  border: 1px solid var(--tabs-prime-border);
+  height: 50px;
+}
+
+/* Dark mode variant */
+.byb-tabs-prime--dark {
+  --tabs-prime-bg: var(--byb-color-dark);
+  --tabs-prime-text: var(--byb-color-white);
+  --tabs-prime-border: var(--byb-color-white);
+  --tabs-prime-hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+.byb-tab-prime {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 0 16px;
+  
+  /* Typography */
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-normal);
+  font-size: 18px;
+  line-height: 30px;
+  color: var(--tabs-prime-text);
+  text-decoration: none;
+  white-space: nowrap;
+  
+  /* Appearance */
+  background-color: var(--tabs-prime-bg);
+  border-right: 1px solid var(--tabs-prime-border);
+  
+  cursor: pointer;
+  transition: background-color var(--byb-transition-normal);
+}
+
+.byb-tab-prime:last-child {
+  border-right: none;
+}
+
+.byb-tab-prime:hover {
+  background-color: var(--tabs-prime-hover-bg);
+}
+
+.byb-tab-prime--active,
+.byb-tab-prime.is-active {
+  background-color: var(--byb-color-orange);
+}
+
+.byb-tab-prime--active:hover,
+.byb-tab-prime.is-active:hover {
+  background-color: var(--byb-color-orange);
+}
+
+/* Tab Prime Arrow Icon */
+.byb-tab-prime__arrow {
+  width: 24px;
+  height: 24px;
+  transition: transform var(--byb-transition-normal);
+}
+
+.byb-tab-prime--expanded .byb-tab-prime__arrow {
+  transform: rotate(180deg);
+}
+
+/* ==========================================================================
+   TAB SECOND - Secondary horizontal tab navigation (uppercase, underline)
+   
+   Supports both DARK and LIGHT modes:
+   - Default: Light mode (dark text)
+   - Add .byb-tabs-second--dark for dark mode (white text)
+   
+   Structure:
+   <nav class="byb-tabs-second">                       <!-- Light mode (default) -->
+   <nav class="byb-tabs-second byb-tabs-second--dark">  <!-- Dark mode -->
+     <a href="#" class="byb-tab-second byb-tab-second--active">TAB NAME</a>
+     <a href="#" class="byb-tab-second">TAB NAME</a>
+   </nav>
+   ========================================================================== */
+.byb-tabs-second {
+  /* Light mode colors (default) */
+  --tabs-second-text: var(--byb-color-dark);
+  --tabs-second-border: var(--byb-color-grey);
+  
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid var(--tabs-second-border);
+}
+
+/* Dark mode variant */
+.byb-tabs-second--dark {
+  --tabs-second-text: var(--byb-color-white);
+  --tabs-second-border: rgba(255, 255, 255, 0.2);
+}
+
+.byb-tab-second {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  
+  /* Typography */
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: 14px;
+  line-height: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--tabs-second-text);
+  text-decoration: none;
+  white-space: nowrap;
+  
+  /* Appearance */
+  background-color: transparent;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  
+  cursor: pointer;
+  transition: all var(--byb-transition-normal);
+}
+
+.byb-tab-second:hover {
+  color: var(--byb-color-orange);
+}
+
+.byb-tab-second--active,
+.byb-tab-second.is-active {
+  color: var(--byb-color-orange);
+  border-bottom-color: var(--byb-color-orange);
+}
+
+/* ==========================================================================
+   BREADCRUMBS - Navigation path
+   
+   Structure:
+   <nav class="byb-breadcrumbs" aria-label="Breadcrumb">
+     <a href="#" class="byb-breadcrumb">Home</a>
+     <span class="byb-breadcrumb__separator">›</span>
+     <a href="#" class="byb-breadcrumb">Level 1</a>
+     <span class="byb-breadcrumb__separator">›</span>
+     <span class="byb-breadcrumb byb-breadcrumb--current">Current Page</span>
+   </nav>
+   ========================================================================== */
+.byb-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.byb-breadcrumb {
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-normal);
+  font-size: var(--byb-font-size-base);
+  line-height: 1.5;
+  color: var(--byb-color-dark);
+  text-decoration: none;
+  
+  transition: color var(--byb-transition-normal);
+}
+
+.byb-breadcrumb:hover {
+  color: var(--byb-color-orange);
+  text-decoration: underline;
+}
+
+.byb-breadcrumb--current {
+  color: var(--byb-color-orange);
+  font-weight: var(--byb-font-weight-medium);
+}
+
+.byb-breadcrumb--current:hover {
+  text-decoration: none;
+}
+
+.byb-breadcrumb__separator {
+  color: var(--byb-color-grey-text);
+  font-size: var(--byb-font-size-base);
+  user-select: none;
+}
+
+/* ==========================================================================
+   BACK BAR - Simple back navigation
+   
+   Structure:
+   <nav class="byb-back-bar">
+     <a href="#" class="byb-back-bar__link">
+       <span class="byb-back-bar__arrow">◄</span>
+       BACK
+     </a>
+   </nav>
+   ========================================================================== */
+.byb-back-bar {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  border-top: 1px solid var(--byb-color-dark);
+  border-bottom: 1px solid var(--byb-color-dark);
+}
+
+.byb-back-bar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-bold);
+  font-size: var(--byb-font-size-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--byb-color-dark);
+  text-decoration: none;
+  
+  cursor: pointer;
+  transition: color var(--byb-transition-normal);
+}
+
+.byb-back-bar__link:hover {
+  color: var(--byb-color-orange);
+}
+
+.byb-back-bar__arrow {
+  font-size: 12px;
+}
+
+/* Variant: Inverted (white on black) */
+.byb-back-bar--inverted {
+  background-color: var(--byb-color-dark);
+}
+
+.byb-back-bar--inverted .byb-back-bar__link {
+  color: var(--byb-color-white);
+}
+
+.byb-back-bar--inverted .byb-back-bar__link:hover {
+  color: var(--byb-color-orange);
+}
+
+/* ==========================================================================
+   LEFT MENU - Sidebar navigation
+   
+   Supports both DARK and LIGHT modes:
+   - Default: Dark mode (black background, white text)
+   - Add .byb-left-menu--light for light mode (white background, black text)
+   
+   Structure:
+   <nav class="byb-left-menu">                     <!-- Dark mode (default) -->
+   <nav class="byb-left-menu byb-left-menu--light">  <!-- Light mode -->
+     <a href="#" class="byb-left-menu__link byb-left-menu__link--active">
+       Menu Item
+       <span class="byb-left-menu__arrow">→</span>
+     </a>
+     ...
+   </nav>
+   ========================================================================== */
+
+/* CSS Custom Properties for theme switching */
+.byb-left-menu {
+  /* Dark mode colors (default) */
+  --left-menu-bg: var(--byb-color-dark);
+  --left-menu-text: var(--byb-color-white);
+  --left-menu-text-muted: rgba(255, 255, 255, 0.8);
+  --left-menu-border: rgba(255, 255, 255, 0.1);
+  --left-menu-hover-bg: rgba(255, 255, 255, 0.05);
+  --left-menu-submenu-bg: rgba(0, 0, 0, 0.2);
+  
+  display: flex;
+  flex-direction: column;
+  background-color: var(--left-menu-bg);
+  width: 280px;
+  min-height: 100%;
+}
+
+/* Light mode variant */
+.byb-left-menu--light {
+  --left-menu-bg: var(--byb-color-white);
+  --left-menu-text: var(--byb-color-dark);
+  --left-menu-text-muted: var(--byb-color-grey-text);
+  --left-menu-border: var(--byb-color-grey);
+  --left-menu-hover-bg: var(--byb-color-grey-bg);
+  --left-menu-submenu-bg: var(--byb-color-grey-bg);
+}
+
+.byb-left-menu__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-normal);
+  font-size: var(--byb-font-size-lg);
+  color: var(--left-menu-text);
+  text-decoration: none;
+  
+  border-bottom: 1px solid var(--left-menu-border);
+  
+  cursor: pointer;
+  transition: all var(--byb-transition-normal);
+}
+
+.byb-left-menu__link:hover {
+  background-color: var(--left-menu-hover-bg);
+}
+
+.byb-left-menu__link--active,
+.byb-left-menu__link.is-active {
+  color: var(--byb-color-orange);
+}
+
+.byb-left-menu__arrow {
+  color: var(--byb-color-orange);
+  font-size: 16px;
+  transition: transform var(--byb-transition-normal);
+}
+
+.byb-left-menu__link--expanded .byb-left-menu__arrow {
+  transform: rotate(90deg);
+}
+
+/* Left Menu Block (expandable section) */
+.byb-left-menu__block {
+  border-bottom: 1px solid var(--left-menu-border);
+}
+
+.byb-left-menu__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 24px;
+  
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-lg);
+  color: var(--left-menu-text);
+  text-align: left;
+  
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--byb-transition-normal);
+}
+
+.byb-left-menu__heading:hover {
+  background-color: var(--left-menu-hover-bg);
+}
+
+/* Submenu */
+.byb-left-menu__submenu {
+  display: none;
+  flex-direction: column;
+  padding-left: 24px;
+  background-color: var(--left-menu-submenu-bg);
+}
+
+.byb-left-menu__block--expanded .byb-left-menu__submenu {
+  display: flex;
+}
+
+.byb-left-menu__sublink {
+  display: block;
+  padding: 12px 24px;
+  
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-normal);
+  font-size: var(--byb-font-size-base);
+  color: var(--left-menu-text-muted);
+  text-decoration: none;
+  
+  transition: all var(--byb-transition-normal);
+}
+
+.byb-left-menu__sublink:hover {
+  color: var(--left-menu-text);
+  background-color: var(--left-menu-hover-bg);
+}
+
+.byb-left-menu__sublink--active,
+.byb-left-menu__sublink.is-active {
+  color: var(--byb-color-orange);
+}
+
+/* ==========================================================================
+   DIVIDING BAR - Section divider
+   ========================================================================== */
+.byb-dividing-bar {
+  width: 100%;
+  height: 1px;
+  background-color: var(--byb-color-dark);
+  margin: var(--byb-space-4) 0;
+}
+
+.byb-dividing-bar--thick {
+  height: 2px;
+}
+
+.byb-dividing-bar--light {
+  background-color: var(--byb-color-grey);
+}
+

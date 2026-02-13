@@ -1,0 +1,326 @@
+/* ==========================================================================
+   BYB Design System - Tags
+   ========================================================================== */
+
+/* ==========================================================================
+   BASE TAG (Simple pill without icon)
+   ========================================================================== */
+.byb-tag {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--byb-space-1);
+  
+  /* Sizing */
+  height: 24px;
+  padding: 4px 8px;
+  
+  /* Typography */
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-medium);
+  font-size: var(--byb-font-size-sm);
+  line-height: 16px;
+  white-space: nowrap;
+  
+  /* Appearance */
+  border-radius: var(--byb-border-radius-md);
+  border: none;
+}
+
+/* ==========================================================================
+   ICONIC TAG (with hand-drawn circular icon)
+   
+   Structure:
+   <span class="byb-iconic-tag byb-iconic-tag--neuro">
+     <img src="/icons/category-neuro.svg" class="byb-iconic-tag__icon" alt="">
+     <span class="byb-iconic-tag__body">Neuroengineering</span>
+   </span>
+   ========================================================================== */
+.byb-iconic-tag {
+  /* Layout - icon overlaps the pill */
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  height: 40px;
+}
+
+.byb-iconic-tag__icon {
+  /* 40x40 hand-drawn circular icon */
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.byb-iconic-tag__body {
+  /* Pill that sits behind and overlaps with icon */
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 16px 0 28px; /* Extra left padding to account for icon overlap */
+  margin-left: -20px; /* Overlap the icon by 20px */
+  
+  /* Typography */
+  font-family: var(--byb-font-body);
+  font-weight: var(--byb-font-weight-normal);
+  font-size: 14px;
+  line-height: 16px;
+  white-space: nowrap;
+  color: var(--byb-color-dark);
+  
+  /* Full round pill */
+  border-radius: 100px;
+  
+  /* Behind the icon */
+  position: relative;
+  z-index: 1;
+}
+
+/* Iconic Tag Sizes */
+.byb-iconic-tag--sm {
+  height: 32px;
+}
+
+.byb-iconic-tag--sm .byb-iconic-tag__icon {
+  width: 32px;
+  height: 32px;
+}
+
+.byb-iconic-tag--sm .byb-iconic-tag__body {
+  height: 22px;
+  padding: 0 12px 0 22px;
+  margin-left: -16px;
+  font-size: 12px;
+}
+
+.byb-iconic-tag--lg {
+  height: 48px;
+}
+
+.byb-iconic-tag--lg .byb-iconic-tag__icon {
+  width: 48px;
+  height: 48px;
+}
+
+.byb-iconic-tag--lg .byb-iconic-tag__body {
+  height: 32px;
+  padding: 0 20px 0 34px;
+  margin-left: -24px;
+  font-size: 16px;
+}
+
+/* ==========================================================================
+   TAG SIZES
+   ========================================================================== */
+.byb-tag--sm {
+  height: 20px;
+  padding: 2px 6px;
+  font-size: var(--byb-font-size-xs);
+}
+
+.byb-tag--lg {
+  height: 28px;
+  padding: 6px 10px;
+  font-size: var(--byb-font-size-base);
+}
+
+/* ==========================================================================
+   CATEGORY TAGS (Iconic tags with hand-drawn circular icons)
+   ========================================================================== */
+
+/* Human - Yellow */
+.byb-iconic-tag--human .byb-iconic-tag__body,
+.byb-tag--human {
+  background-color: var(--byb-color-tinted-yellow);
+  color: var(--byb-color-dark);
+}
+
+/* Plant - Green */
+.byb-iconic-tag--plant .byb-iconic-tag__body,
+.byb-tag--plant {
+  background-color: var(--byb-color-tinted-green);
+  color: var(--byb-color-dark);
+}
+
+/* Invertebrate - Purpure/Magenta */
+.byb-iconic-tag--invertebrate .byb-iconic-tag__body,
+.byb-tag--invertebrate {
+  background-color: #f2c8e9; /* Figma spec: exact color */
+  color: var(--byb-color-dark);
+}
+
+/* Neuroengineering - Blue */
+.byb-iconic-tag--neuro .byb-iconic-tag__body,
+.byb-tag--neuro {
+  background-color: var(--byb-color-tinted-blue);
+  color: var(--byb-color-dark);
+}
+
+/* Accessories - Grey */
+.byb-iconic-tag--accessories .byb-iconic-tag__body,
+.byb-tag--accessories {
+  background-color: var(--byb-color-grey);
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   GRADE LEVEL TAGS (Iconic tags with clock/dial icon)
+   ========================================================================== */
+.byb-iconic-tag--grade .byb-iconic-tag__body,
+.byb-tag--grade {
+  background-color: #ffcdbf; /* Figma spec: exact grade tag color */
+  color: var(--byb-color-dark);
+}
+
+/* Grade level variants (different shades) */
+.byb-iconic-tag--grade-1 .byb-iconic-tag__body,
+.byb-tag--grade-1 { background-color: #ffcdbf; }
+
+.byb-iconic-tag--grade-2 .byb-iconic-tag__body,
+.byb-tag--grade-2 { background-color: #ffe0d4; }
+
+.byb-iconic-tag--grade-3 .byb-iconic-tag__body,
+.byb-tag--grade-3 { background-color: #ffe8dc; }
+
+.byb-iconic-tag--grade-4 .byb-iconic-tag__body,
+.byb-tag--grade-4 { background-color: #fff0e8; }
+
+.byb-iconic-tag--grade-5 .byb-iconic-tag__body,
+.byb-tag--grade-5 { background-color: #fff4f0; }
+
+/* ==========================================================================
+   SECTION TAGS
+   ========================================================================== */
+
+/* Store */
+.byb-tag--store {
+  background-color: var(--byb-color-tinted-orange);
+  color: var(--byb-color-dark);
+}
+
+/* Blog */
+.byb-tag--blog {
+  background-color: var(--byb-color-tinted-yellow);
+  color: var(--byb-color-dark);
+}
+
+/* Community */
+.byb-tag--community {
+  background-color: var(--byb-color-tinted-green);
+  color: var(--byb-color-dark);
+}
+
+/* Documentation */
+.byb-tag--docs {
+  background-color: var(--byb-color-tinted-blue);
+  color: var(--byb-color-dark);
+}
+
+/* Experiments */
+.byb-tag--experiments {
+  background-color: var(--byb-color-tinted-purpure);
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   GENERAL TAGS
+   ========================================================================== */
+
+/* Brain */
+.byb-tag--brain {
+  background-color: var(--byb-color-light-tinted-orange);
+  color: var(--byb-color-dark);
+}
+
+/* Featured */
+.byb-tag--featured {
+  background-color: var(--byb-color-orange);
+  color: var(--byb-color-white);
+}
+
+/* Time */
+.byb-tag--time {
+  background-color: var(--byb-color-grey-bg);
+  color: var(--byb-color-grey-text);
+}
+
+/* Admin */
+.byb-tag--admin {
+  background-color: var(--byb-color-grey);
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   SIMPLE TAGS (Outline & Solid variants)
+   ========================================================================== */
+
+/* Outline style */
+.byb-tag--outline {
+  background-color: transparent;
+  border: 1px solid var(--byb-color-grey);
+  color: var(--byb-color-dark);
+}
+
+.byb-tag--outline-orange {
+  background-color: transparent;
+  border: 1px solid var(--byb-color-orange);
+  color: var(--byb-color-orange);
+}
+
+/* Solid neutral */
+.byb-tag--solid {
+  background-color: var(--byb-color-grey-bg);
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   LANGUAGE TAGS (for workshops)
+   ========================================================================== */
+.byb-tag--lang {
+  font-weight: var(--byb-font-weight-bold);
+  text-transform: uppercase;
+  font-size: var(--byb-font-size-xs);
+}
+
+.byb-tag--lang-en {
+  background-color: var(--byb-color-tinted-blue);
+  color: var(--byb-color-dark);
+}
+
+.byb-tag--lang-sr {
+  background-color: var(--byb-color-tinted-orange);
+  color: var(--byb-color-dark);
+}
+
+/* ==========================================================================
+   TAG ICON
+   ========================================================================== */
+.byb-tag__icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.byb-tag--sm .byb-tag__icon {
+  width: 12px;
+  height: 12px;
+}
+
+.byb-tag--lg .byb-tag__icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ==========================================================================
+   TAG GROUP
+   ========================================================================== */
+.byb-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--byb-space-2);
+}
+
+.byb-tag-group--tight {
+  gap: var(--byb-space-1);
+}

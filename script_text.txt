@@ -1,0 +1,106 @@
+The Master Plan (Parent/Maker Edition)
+Angle: From the University to Your Living Room. "We are our neurons." Target: Parents of STEM kids & Makers. Est. Time: 2:00
+SCENE 1: THE EXODUS (Drone) (Visual): Drone starts high, hovering over the classic architecture of the University of Michigan (The Bell Tower or Law Quad). It feels academic, distant, and rigid. GREG (VO): "For a long time, neuroscience was locked away in places like this... Big universities. Expensive labs. Exclusive." (Visual): The drone suddenly accelerates, flying away from the campus, down the street, getting lower and faster. It banks hard and flies directly into the open 3rd-floor window of Backyard Brains. GREG (VO): "15 years ago, we left that world to start this one. Backyard Brains. We showed you how to listen to neurons. Now… we’re going to show you how to build them."
+SCENE 2: THE REVEAL (Sync Sound) (Visual): Drone enters. Finds GREG holding the robot. He looks like he’s inviting you in on a secret. GREG: "We’ve taken the logic of the human brain, and we put it on wheels. This is SpikerBot." [Note:  This will be shot on Drone Day… Everything else is recorded in terms of VO/ interviews.
+SCENE 3: THE "NO CODE" REVOLUTION (B-Roll) (Visual): Split Screen. LEFT: A kid looking bored at lines of Python code. RIGHT: The same kid on an iPad, dragging a glowing neuron, eyes wide. ALEX (VO): "If you want a robot to walk, you usually have to write code. Syntax. Debugging. It’s rigid." (Visual): Close up of the "Brain Board" on the robot. LEDs are flashing organically. ALEX (VO): "But biology doesn’t use code. It uses spikes. We built a robot that thinks the way you think."
+SCENE 4: ENGINEERING PERSONALITY (The Hook) (Visual): Screen recording. A finger drags a connection. (Audio): Click. (Visual): The robot instantly changes behavior—chasing a ball. CHRIS (VO): "You don’t program scripts. You engineer personality. Connect an excitatory neuron? Your robot is brave—a predator." (Visual): Screen recording: Toggling the synapse to "Inhibitory." (Visual): The robot immediately backs away, hiding in a corner. CHRIS (VO): "Switch it to inhibitory? Now it’s shy. It’s prey. You aren't just building a machine; you're designing a creature with instincts."
+SCENE 5: THE MENAGERIE (Maker/Creativity) (Visual): Fast, fun montage. A messy living room floor (LEGOs/parts).
+A robot dressed as a "Dog" barking at a parent.
+A "Bat" robot using sound to navigate a dark hallway.
+A kid 3D printing a new shell for their bot. ALEX (VO): "Brave. Scared. Curious. These aren't lines of code—they are emergent behaviors. Just like us, SpikerBot is defined by its connections."
+SCENE 6: THE PHILOSOPHY (The "Why") (Visual): Greg, Chris, and Alex working on a whiteboard, sketching a brain map. GREG (VO): "We are all just networks of spiking neurons. When you build a brain for SpikerBot, you aren't just learning robotics..." (Visual): A child staring into the camera of the robot, and the robot looking back. GREG (VO): "...you are learning about yourself."
+SCENE 7: THE URGENT CLOSE (Visual): The team stands together. The light is bright. The energy is "Go time." GREG: "We’ve spent 15 years democratizing neuroscience. We have the prototypes. We have the app. Now, we need you." CHRIS: "Stop coding." ALEX: "Start evolving." GREG: "Back this project, and build your own brain." (Visual): Drone flies backward out the window. Fade to Logo.
+SECTION 1: THE INTRO
+Goal: Establish credibility and transition from "The University" to "The Home."
+Option A: The "Exodus" (Best for Story/Brand) (Visual): Drone hovers high over the University of Michigan (Bell Tower/Law Quad). Rigid, academic. Drone accelerates away from campus, dives into the BYB window. GREG (VO): "For a long time, neuroscience was locked away in places like that. Big universities. Expensive labs. Exclusive. 15 years ago, we left that world to start this one. Backyard Brains. We showed you how to listen to neurons. Now… we’re going to show you how to build them."
+Option B: The "Hard Launch" (Best for Attention Span) (Visual): Fast FPV drone shot flying down State St. and blasting through the window. GREG is already holding the robot up to the lens. GREG (Sync): "Stop writing code. Start building brains. This is SpikerBot—the first robot run by biological logic, not computer scripts. And we built it for you."
+Option C: The "Wonder" (Best for Curiosity) (Visual): Close up of a neuron firing on a screen, match-cut to the robot’s LED "brain" firing. Pull back to reveal the lab. GREG (VO): "The most complex machine in the universe isn't a computer. It's your brain. For 15 years, we've studied it. Now, we've reverse-engineered it."
+
+SECTION 2: THE PROBLEM
+Goal: Explain why "No Code" matters to Parents & Makers.
+Option A: The "Frustrated Kid" (Best for Parents) (Visual): Split Screen. Left: Kid looking bored/frustrated at Python syntax errors. Right: Kid dragging a glowing neuron on an iPad, eyes wide. ALEX (VO): "If you want a robot to walk, you usually have to fight with code. Syntax. Debugging. It’s rigid. But biology doesn’t use code. It uses spikes. We built a robot that thinks the way you think."
+Option B: The "Rigid vs. Fluid" (Best for Makers) (Visual): A standard robot hitting a wall and getting stuck (looping). Cut to SpikerBot "sensing" the wall and turning organically. ALEX (VO): "Standard robots follow a script. If A, then B. But the real world is messy. You don't need a better script. You need a nervous system. We threw out the code editor and gave you a brain."
+
+SECTION 3: THE DEMO (Crucial)
+Goal: Show "Personality Engineering" (The Predator/Prey Moment).
+Option A: "Brave vs. Scared" (Best for relatable fun) (Visual): Finger connects a neuron. Click. Robot chases ball (Predator). Finger toggles switch. Robot runs away (Prey). CHRIS (VO): "You don’t program loops. You engineer personality. Connect an excitatory neuron? Your robot is brave—a predator. Switch it to inhibitory? Now it’s shy. It’s prey. You aren't just building a machine; you're designing a creature with instincts."
+Option B: "The Architect" (Best for feeling smart) (Visual): Extreme close-up of the app UI. Showing the "Synapse Weight" slider moving. CHRIS (VO): "This is a Spiking Neural Network. You drag inputs, connect synapses, and tune the weights. You can see the decision happening in real-time. It’s not magic. It’s neuroscience."
+
+SECTION 4: THE MAKER FACTOR
+Goal: Show customization and fun.
+Option A: "The Menagerie" (Best for "Cool Factor") (Visual): Fast montage. Messy living room floor. A "Dog" bot barking. A "Bat" bot navigating the dark. A "Sumo" bot pushing a block. ALEX (VO): "Brave. Scared. Curious. These aren't lines of code—they are emergent behaviors. Just like us, SpikerBot is defined by its connections. Dress it up, hack the shell, make it yours."
+Option B: "The Hardware" (Best for Value) (Visual): Explosion view of the parts coming together. 3D printed shells being swapped. ALEX (VO): "It comes with cameras, microphones, and distance sensors. But because it’s open hardware, you can 3D print your own bodies. Build a rover. Build a pet. Build a monster."
+
+SECTION 5: THE PHILOSOPHY
+Goal: Emotional hook.
+Option A: "Know Thyself" (Deep) (Visual): Greg sketching a brain map. Cut to a child staring at the robot. GREG (VO): "We are all just networks of spiking neurons. When you build a brain for SpikerBot, you aren't just learning robotics... you are learning about yourself."
+Option B: "The Future" (Exciting) (Visual): Fast cuts of bio-inspired robots. GREG (VO): "The future of robotics isn't artificial intelligence. It's biological intelligence. And with SpikerBot, that future is on your kitchen table."
+
+SECTION 6: THE OUTRO
+Goal: Get the money.
+Option A: "The Urgent Reveal" (LaunchBoom Style) (Visual): Team stands in the sunlit lab. Confident energy. GREG: "We have the prototypes. We have the app. Now, we need you." CHRIS: "Stop coding." ALEX: "Start evolving." GREG: "Back this project, and build your own brain." (Visual): Drone flies backward out window.
+Option B: "The Invitation" (Community Style) (Visual): Greg holding the robot out toward the camera lens. GREG: "We’ve spent 15 years democratizing neuroscience. This is our biggest step yet. Join us. Back SpikerBot, and let’s see what you create." (Visual): Fade to logo.
+
+
+Other Versions (Not Recorded)OPTION 1: SpikerBot Revolution (The Original)
+Angle: Cinematic, Team-focused, "Science/Academia" vibe. Est. Time: 2:00
+SCENE 1: THE ARRIVAL (Drone flies fast over U of M campus, into BYB Lab window. Finds GREG at whiteboard.) GREG: "For 15 years, Backyard Brains has shown the world how neurons work. Today, we’re going to show you how intelligence is built."
+SCENE 2: THE PARADIGM SHIFT (Split screen: Boring code vs Vibrant SpikerBot UI. Close-up of SpikerBot moving.) CHRIS (VO): "For fifty years, if you wanted a robot to think, you had to write code. Line after line of rigid text. But that is not how a brain works. And it’s not how SpikerBot works."
+SCENE 3: BIOLOGICAL LOGIC (Chris in lab. Screen recording of UI. Robot reacts to 'Predator vs Prey' demo.) CHRIS (VO): "This is the world’s first robot driven by spiking neural networks. You don’t write scripts. You design a brain. Connect an excitatory neuron? It’s a predator. Switch it to inhibitory? Now it’s prey. You are engineering behavior using the logic of biology."
+SCENE 4: THE CLASSROOM (Bright classroom. Diverse students. "Aha!" moments. Robots interacting.) ALEX (VO): "This isn't just a toy. It’s an NIH-funded research platform disguised as a robot. We’ve bridged the gap between AP Biology and Computer Science. Students aren't just memorizing how synapses work—they are watching them fire in real-time."
+SCENE 5: THE UX & FEATURES (Fast Montage: Camera detecting face, mic hearing clap, wheels spinning, diagrams.) ALEX (VO): "Inputs, outputs, memory loops, decision making. Whether you are a teacher explaining neuroscience, or a maker building a creature that learns... SpikerBot makes the complex beautiful, and accessible."
+SCENE 6: THE TEAM (Greg, Chris, Alex huddled around table. Flashes of previous inventions.) GREG (VO): "We’ve shipped to over 100 countries. We’ve been backed by the White House and the NIH. We know how to make science accessible."
+SCENE 7: THE OUTRO (Greg at table. Robot moving. Drone pulls back, flies out window.) GREG: "Stop writing code. Start building brains. Back this project, and join the Neuro-Revolution."
+
+OPTION 2: The Dawn of a New Brain
+Angle: "2001: A Space Odyssey" Parody. Evolutionary, dramatic, "Wonder" focused.
+SCENE 1: THE DAWN (Ominous orchestra. Jellyfish fading to Monolith/iPad. Robots beep and dance.) VO: "Millions of years ago, the first neuron fired. A spark that would one day imagine, dream… Today—the spark fires again. Introducing The first robot programmed not by code… but by the logic of the brain itself."
+SCENE 2: INTRODUCING SPIKERBOT (Bright macro shots of robot and neurons.) VO: "Meet SpikerBot—a brain-inspired robot that thinks and reacts using simulated biological neurons! Build circuits of excitatory neurons that fire… or inhibitory neurons that quiet things down. Watch as real neural networks come to life, driving behavior—just like in animals!"
+SCENE 3: BUILD, PROGRAM, PLAY (Kid dragging neurons on tablet. Robot chases ball.) VO: "With our drag-and-drop app, you can wire up your very own brain—create networks that see, decide, and act! It’s not AI in a black box… it’s you, designing a working brain from scratch!"
+SCENE 4: DEMOS & COSTUMES (Montage: Spike the Dog barking, Cat Bot chasing laser, Cowbot, Spiker Bat.) VO: "We’ve made a whole crew of SpikerBots with different personalities... We can even replicate behaviors of real living organisms! And you can design your own! All brains are modifiable, and 3D printable accessories and costumes are free to download."
+SCENE 5: EDUCATION & HOME (Classrooms, students assembling, laughing.) VO: "SpikerBot brings the brain to life in schools, makerspaces, and living rooms alike. Start with simple reflexes—then explore complex networks: working memory, fixed action patterns, even ‘winner-takes-all’ circuits like those in real brains... Never before have these concepts been so approachable to all ages."
+SCENE 6: WHAT'S IN THE BOX (Unboxing shot. Robot, app, lessons.) VO: "Each SpikerBot kit includes everything you need: the robot, app, lessons, and tons of online brains to explore and remix. Just connect, build your network, and watch your bot think!"
+SCENE 7: THE PROBLEM (Scientists looking at brain scans, fading to curious kids.) VO: "1 in 3 people will face a neurological disorder in their lifetime. Yet, most of what we have are treatments, not cures... At Backyard Brains, we believe the cure starts with curiosity. For over 16 years, we’ve brought real neuroscience into classrooms... And now… we’re taking the next leap."
+SCENE 8: THE TEAM & CTA (Team montage. Kids amazed. Logo.) VO: "SpikerBot comes from Backyard Brains... We’ve spent over 16 years making neuroscience hands-on. Now we’re bringing it to life—literally. Help us spark the next generation of neuroscientists. Support SpikerBot on Kickstarter... SpikerBot: Create brains to learn real neuroscience!"
+
+OPTION 3: The Missing Link (Drone Hand-Off)
+Angle: Production-focused. Solves the "filming while flying" problem. Direct & Clear. Est. Time: 2:05
+SCENE 1: THE ARRIVAL (Fast FPV drone over campus, dives into window. Finds GREG.) GREG (VO): "Ten years ago, right here in this lab, we showed the world how to listen to a brain..."
+SCENE 2: THE HAND-OFF (Drone finds Greg. Greg looks at drone. CUT TO Static Camera B.) GREG (VO): "...and we put the power of neuroscience into the hands of students everywhere." GREG (Direct to Cam): "But listening was just the start. Now... we want to teach you how intelligence really works."
+SCENE 3: THE REVEAL (Glamor shots of SpikerBot.) GREG (VO): "This is SpikerBot. The first robot in history driven by real-time spiking neural networks that you design."
+SCENE 4: THE PROBLEM (Cut to ALEX. Split screen: Code vs Pink Neuron.) ALEX (Direct to Cam): "For the last 50 years, if you wanted a robot to move, you had to write code. If you missed a semicolon, it failed." ALEX (VO): "SpikerBot is different. You don't write scripts. You build a brain."
+SCENE 5: THE SOFTWARE (Screen capture of UI. Mouse drag. Real robot chases ball.) ALEX (VO): "Our interface lets you drag and drop neurons. Connect a sensory neuron to a motor neuron? You get a reflex. Add an inhibitory neuron? Now the robot is 'scared.' You are literally wiring its personality."
+SCENE 6: THE CLASSROOM (Chris in sunny classroom. Helping student.) CHRIS (Direct to Cam): "This isn't just a toy. This is the missing link between Biology and Computer Science." CHRIS (VO): "Funded by the NIH and aligned with Next Gen Science Standards, SpikerBot turns abstract concepts—like decision making and memory—into something you can hold in your hand."
+SCENE 7: MONTAGE (Dog robot, Bat robot, Team sketching, Child high-fiving.) GREG (VO): "Whether you are a researcher, a teacher, or a maker... you are about to build something that thinks in parallel, adapts, and learns. Just like you do."
+SCENE 8: CTA & LOOP (Team standing together. Drone flies backward out window.) GREG: "We’ve spent years working to make computational neuroscience both easy and fun. But to get it into classrooms worldwide, we need to manufacture at scale." CHRIS: "Join the revolution." ALEX: "Start building brains." ALL: "Back us on Kickstarter!"
+
+OPTION 4: The Master Plan (Variation)
+Angle: The "Architect" Angle. Focuses heavily on the UI/Brain building aspect. Est. Time: 2:00
+SCENE 1: THE HOOK (FPV Drone dives into lab. GREG turns to camera.) GREG (VO): "For 50 years, robotics has been about writing code. Lines of text. Syntax. If/Then." GREG (On Cam): "But that’s not how real intelligence works. Welcome to Backyard Brains. Years ago, we showed the world how neurons fire. Today, we’re showing you how they think."
+SCENE 2: THE PROBLEM VS SOLUTION (Comparison: Old messy rig vs New SpikerBot.) GREG (VO): "To build a brain, you don't need a keyboard. You need neurons. This is SpikerBot. The first robot driven by real-time spiking neural networks."
+SCENE 3: THE TECHNOLOGY (Alex at computer. Screen recording showing firing neurons.) ALEX (On Cam): "We threw out the code editor. With SpikerBot, you are the architect." ALEX (VO): "You drag a sensory neuron, connect it to a motor neuron, and tune the synapse. It’s intuitive. It’s visual. And it’s parallel processing—just like your own brain."
+SCENE 4: THE BEHAVIOR (Predator mode vs Prey mode vs Diagram.) GREG (VO): "The question isn't 'what is the code?' The question is: 'How do we turn spikes into behavior?' Change one connection, and your robot goes from a predator... to prey. You aren't programming a robot; you're designing a creature."
+SCENE 5: EDUCATIONAL IMPACT (Chris in sunlit classroom. Students working.) CHRIS (On Cam): "This is the missing link in STEM education. We are bridging AP Biology and Computer Science." CHRIS (VO): "Developed with funding from the NIH and aligned with NGSS, we’ve taken abstract neuroscience and made it tangible. Students don't just memorize definitions of 'synaptic plasticity'—they engineer it."
+SCENE 6: THE MENAGERIE & CTA (Montage of Bots. Drone backs out window.) GREG/ALEX/CHRIS (Montage): "It works right out of the box." ... "No coding experience required." ... "From the classroom to your living room." GREG: "We’ve spent 15 years preparing for this moment. But now, we need you to help us bring it to the world." ALL: "Start building brains."
+
+OPTION 5: The "Tight & Proven" (GPT Pro)
+Angle: Short (1:55), Hard stop on 2 mins. "Show don't tell." No rambling.
+SCENE 1: ESTABLISH (Drone over campus. Heads to BYB lab.) VO: "On this campus, students learn what neurons are. We wanted them to learn what intelligence is." (Drone enters window. Match cut to locked camera.) VO: "For years, we’ve made the brain’s electrical language tangible—real spikes you can hear and record. Now we’re bringing that same hands-on approach to behavior."
+SCENE 2: THE INTRODUCTION (One sentence on camera. Then immediate robot action.) YOU: "I’m [NAME]. This is SpikerBot—build a spiking neural network, and it drives a real robot. No code." VO: "Most robots follow a script: if‑then logic and endless debugging. SpikerBot follows spikes—brief electrical pulses like neurons use."
+SCENE 3: HOW IT WORKS (Alex) (Screen capture of UI + robot responding in same scene.) ALEX: "Here’s the brain designer. Drag neurons. Connect synapses. Tune connection strength like a volume knob. Route the camera, microphone, and distance sensor into the network—then map neurons to wheels, lights, and sound."
+SCENE 4: THE PROOF (Predator/Prey) (Split screen before/after. Synapse toggle.) CHRIS: "Because the brain runs live, edits are instant. Change one connection and you change the animal: excitatory becomes inhibitory—and ‘chase’ becomes ‘avoid.’ That cause-and-effect is the point. Neuroscience you can see."
+SCENE 5: WHO IT'S FOR (Bright classroom shots.) CHRIS: "SpikerBot is built for classrooms, families, and makers. It turns core brain concepts—networks, inhibition, learning, decision‑making—into something you can actually build and observe."
+SCENE 6: CREDIBILITY (Fast montage: Team, SBIR/NIH line, GitHub repo.) YOU: "This platform comes out of NIH-backed education R&D—and it’s open-source, so the community can extend it."
+SCENE 7: CTA (Drone backs out for clean loop.) YOU: "We’re launching on Kickstarter. Back SpikerBot for early access and launch pricing—and help put brain-based robotics into the hands of the public."
+
+Recommendation for "Highest Kickstarter"
+If you want the highest funding total from the general public (not just VIPs):
+Print Option 4 ("The Master Plan").
+Why?
+"We threw out the code editor" is a massively powerful hook for the general public who find coding intimidating.
+"You aren't programming a robot; you're designing a creature" appeals to curiosity and imagination (the "cool factor") much more than just "educational tool."
+It balances the Authority (NIH/Science) with the Fun (The Menagerie/Creatures) better than the others.
+This script hits the sweet spot between "Legitimate Science" (which justifies the price) and "Cool Toy" (which creates the impulse buy).
+
+
+

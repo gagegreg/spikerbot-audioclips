@@ -1,0 +1,168 @@
+/* ==========================================================================
+   BYB Design System - Layout Utilities
+   ========================================================================== */
+
+/* ==========================================================================
+   STACK (Vertical layout)
+   ========================================================================== */
+.byb-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.byb-stack--tight { gap: var(--byb-space-1); }
+.byb-stack--snug { gap: var(--byb-space-2); }
+.byb-stack--normal { gap: var(--byb-space-4); }
+.byb-stack--loose { gap: var(--byb-space-6); }
+.byb-stack--spacious { gap: var(--byb-space-8); }
+
+/* ==========================================================================
+   INLINE (Horizontal layout)
+   ========================================================================== */
+.byb-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.byb-inline--tight { gap: var(--byb-space-1); }
+.byb-inline--snug { gap: var(--byb-space-2); }
+.byb-inline--normal { gap: var(--byb-space-3); }
+.byb-inline--loose { gap: var(--byb-space-4); }
+.byb-inline--spacious { gap: var(--byb-space-6); }
+
+.byb-inline--start { justify-content: flex-start; }
+.byb-inline--center { justify-content: center; }
+.byb-inline--end { justify-content: flex-end; }
+.byb-inline--between { justify-content: space-between; }
+
+.byb-inline--wrap { flex-wrap: wrap; }
+
+/* ==========================================================================
+   GRID
+   ========================================================================== */
+.byb-grid {
+  display: grid;
+  gap: var(--byb-space-4);
+}
+
+.byb-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.byb-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.byb-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Auto-fit responsive grid */
+.byb-grid--auto {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* ==========================================================================
+   CONTAINER
+   ========================================================================== */
+.byb-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--byb-space-4);
+  padding-right: var(--byb-space-4);
+}
+
+.byb-container--narrow {
+  max-width: 800px;
+}
+
+.byb-container--wide {
+  max-width: 1400px;
+}
+
+/* ==========================================================================
+   CARD
+   ========================================================================== */
+.byb-card {
+  background-color: var(--byb-color-white);
+  border-radius: var(--byb-border-radius-xl);
+  padding: var(--byb-space-4);
+}
+
+.byb-card--bordered {
+  border: 1px solid var(--byb-color-grey-divider);
+}
+
+.byb-card--shadow {
+  box-shadow: var(--byb-shadow-md);
+}
+
+.byb-card--hover:hover {
+  box-shadow: var(--byb-shadow-lg);
+  transform: translateY(-2px);
+  transition: all var(--byb-duration-normal) var(--byb-ease-default);
+}
+
+/* ==========================================================================
+   DIVIDER
+   ========================================================================== */
+.byb-divider {
+  height: 1px;
+  background-color: var(--byb-color-grey-divider);
+  border: none;
+  margin: var(--byb-space-4) 0;
+}
+
+.byb-divider--thick {
+  height: 2px;
+}
+
+/* ==========================================================================
+   SPACING UTILITIES
+   ========================================================================== */
+
+/* Margin */
+.byb-m-0 { margin: var(--byb-space-0); }
+.byb-m-1 { margin: var(--byb-space-1); }
+.byb-m-2 { margin: var(--byb-space-2); }
+.byb-m-3 { margin: var(--byb-space-3); }
+.byb-m-4 { margin: var(--byb-space-4); }
+.byb-m-6 { margin: var(--byb-space-6); }
+.byb-m-8 { margin: var(--byb-space-8); }
+
+.byb-mt-0 { margin-top: var(--byb-space-0); }
+.byb-mt-1 { margin-top: var(--byb-space-1); }
+.byb-mt-2 { margin-top: var(--byb-space-2); }
+.byb-mt-3 { margin-top: var(--byb-space-3); }
+.byb-mt-4 { margin-top: var(--byb-space-4); }
+.byb-mt-6 { margin-top: var(--byb-space-6); }
+.byb-mt-8 { margin-top: var(--byb-space-8); }
+
+.byb-mb-0 { margin-bottom: var(--byb-space-0); }
+.byb-mb-1 { margin-bottom: var(--byb-space-1); }
+.byb-mb-2 { margin-bottom: var(--byb-space-2); }
+.byb-mb-3 { margin-bottom: var(--byb-space-3); }
+.byb-mb-4 { margin-bottom: var(--byb-space-4); }
+.byb-mb-6 { margin-bottom: var(--byb-space-6); }
+.byb-mb-8 { margin-bottom: var(--byb-space-8); }
+
+/* Padding */
+.byb-p-0 { padding: var(--byb-space-0); }
+.byb-p-1 { padding: var(--byb-space-1); }
+.byb-p-2 { padding: var(--byb-space-2); }
+.byb-p-3 { padding: var(--byb-space-3); }
+.byb-p-4 { padding: var(--byb-space-4); }
+.byb-p-6 { padding: var(--byb-space-6); }
+.byb-p-8 { padding: var(--byb-space-8); }
+
+/* ==========================================================================
+   VISIBILITY
+   ========================================================================== */
+.byb-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.byb-hidden { display: none; }

@@ -1,0 +1,159 @@
+/* ==========================================================================
+   BYB Design System - Logo Component
+   ========================================================================== */
+
+/* ==========================================================================
+   LOGO BASE
+   ========================================================================== */
+.byb-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: opacity var(--byb-duration-fast) var(--byb-ease-default);
+}
+
+.byb-logo:hover {
+  opacity: 0.85;
+}
+
+.byb-logo__img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   LOGO VARIANTS
+   ========================================================================== */
+
+/* Horizontal - Full logo with icon and text side by side */
+.byb-logo--horizontal .byb-logo__img {
+  height: 80px;
+}
+
+/* Stacked - Logo with text above the icon */
+.byb-logo--stacked .byb-logo__img {
+  height: 120px;
+}
+
+/* Sign - Just the brain in wheelbarrow icon */
+.byb-logo--sign .byb-logo__img {
+  height: 80px;
+}
+
+/* Text - Just the "Backyard Brains" text */
+.byb-logo--text .byb-logo__img {
+  height: 50px;
+}
+
+/* ==========================================================================
+   SIZE MODIFIERS
+   ========================================================================== */
+
+/* Extra Small */
+.byb-logo--xs .byb-logo__img {
+  transform: scale(0.4);
+  transform-origin: center;
+}
+
+.byb-logo--xs.byb-logo--horizontal .byb-logo__img { height: 32px; }
+.byb-logo--xs.byb-logo--stacked .byb-logo__img { height: 48px; }
+.byb-logo--xs.byb-logo--sign .byb-logo__img { height: 32px; }
+.byb-logo--xs.byb-logo--text .byb-logo__img { height: 20px; }
+
+/* Small */
+.byb-logo--sm .byb-logo__img {
+  transform: scale(0.6);
+  transform-origin: center;
+}
+
+.byb-logo--sm.byb-logo--horizontal .byb-logo__img { height: 48px; }
+.byb-logo--sm.byb-logo--stacked .byb-logo__img { height: 72px; }
+.byb-logo--sm.byb-logo--sign .byb-logo__img { height: 48px; }
+.byb-logo--sm.byb-logo--text .byb-logo__img { height: 30px; }
+
+/* Large */
+.byb-logo--lg .byb-logo__img {
+  transform: scale(1.5);
+  transform-origin: center;
+}
+
+.byb-logo--lg.byb-logo--horizontal .byb-logo__img { height: 120px; }
+.byb-logo--lg.byb-logo--stacked .byb-logo__img { height: 180px; }
+.byb-logo--lg.byb-logo--sign .byb-logo__img { height: 120px; }
+.byb-logo--lg.byb-logo--text .byb-logo__img { height: 75px; }
+
+/* Extra Large */
+.byb-logo--xl .byb-logo__img {
+  transform: scale(2);
+  transform-origin: center;
+}
+
+.byb-logo--xl.byb-logo--horizontal .byb-logo__img { height: 160px; }
+.byb-logo--xl.byb-logo--stacked .byb-logo__img { height: 240px; }
+.byb-logo--xl.byb-logo--sign .byb-logo__img { height: 160px; }
+.byb-logo--xl.byb-logo--text .byb-logo__img { height: 100px; }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .byb-logo--horizontal .byb-logo__img {
+    height: 60px;
+  }
+  
+  .byb-logo--stacked .byb-logo__img {
+    height: 100px;
+  }
+  
+  .byb-logo--sign .byb-logo__img {
+    height: 60px;
+  }
+  
+  .byb-logo--text .byb-logo__img {
+    height: 40px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .byb-logo--horizontal .byb-logo__img {
+    height: 48px;
+  }
+  
+  .byb-logo--stacked .byb-logo__img {
+    height: 80px;
+  }
+  
+  .byb-logo--sign .byb-logo__img {
+    height: 48px;
+  }
+  
+  .byb-logo--text .byb-logo__img {
+    height: 32px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .byb-logo--horizontal .byb-logo__img {
+    height: 40px;
+  }
+  
+  .byb-logo--stacked .byb-logo__img {
+    height: 64px;
+  }
+  
+  .byb-logo--sign .byb-logo__img {
+    height: 40px;
+  }
+  
+  .byb-logo--text .byb-logo__img {
+    height: 28px;
+  }
+}
+
