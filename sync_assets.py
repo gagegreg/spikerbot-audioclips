@@ -12,7 +12,10 @@ FOLDER_ID = "142ocPoek3NDBmXb_Z65g_Vl1wF4PNyyR"
 SHEET_ID = "1z6SoOdwh8d1GX0x2q29Lu2gpDqWnfMSMuiLC9XsL030"
 
 DATA_DIR = "data"
+DATA_DIR = "data"
 AUDIO_DIR = "static/audio"
+
+import csv
 
 def ensure_dirs():
     if not os.path.exists(DATA_DIR):
@@ -32,12 +35,20 @@ def sync_script(client):
         print(f"❌ Failed to sync script: {e}")
 
 def sync_metadata(client):
-    print("Downloading Metadata (Sheet)...")
+    print("Downloading Metadata (Sheet via Drive Export)...")
     try:
-        rows = client.get_sheet_values(SHEET_ID, "A1:G1000")
+        # Export as CSV to bypass Sheets API scope restriction
+        csv_content = client.export_file(SHEET_ID, 'text/csv')
+        
+        # Parse CSV
+        csv_text = csv_content.decode('utf-8')
+        f = io.StringIO(csv_text)
+        reader = csv.reader(f)
+        rows = list(reader)
+        
         with open(os.path.join(DATA_DIR, 'metadata.json'), 'w') as f:
             json.dump(rows, f, indent=2)
-        print("✅ Metadata saved to data/metadata.json")
+        print("✅ Metadata saved to data/metadata.json (via CSV export)")
     except Exception as e:
         print(f"❌ Failed to sync metadata: {e}")
 

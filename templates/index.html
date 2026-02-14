@@ -170,6 +170,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 15px;
+            }
+
+            .toolbar>div {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            /* The second div (actions) is inline flex by default style, we need to ensure it fills and spaces out */
+            .toolbar>div:last-child {
+                margin-top: 10px;
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                /* or flex-end? User wanted no collision. Space between separates them. */
+            }
+
+            .byb-logo h2 {
+                font-size: 1.2rem;
+                /* Smaller title */
+            }
         }
 
         /* Filter Bar */
@@ -296,7 +324,7 @@
             <h2 style="margin:0; font-weight:700; color: #111;">Audio Script Preview</h2>
         </div>
 
-        <div style="display: flex; gap: 16px; align-items: center;">
+        <div class="toolbar-actions" style="display: flex; gap: 16px; align-items: center;">
             {% if user %}
             <div class="user-profile">
                 <img src="{{ user.picture }}" alt="Profile" class="user-avatar"
