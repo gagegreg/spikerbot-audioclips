@@ -325,14 +325,14 @@
         </div>
 
         <div class="toolbar-actions" style="display: flex; gap: 16px; align-items: center;">
+            <a href="{{ url_for('collections_page') }}" class="byb-btn byb-btn--sm byb-btn--outline"
+                style="font-size: 0.8rem;">🎬 Collections</a>
             {% if user %}
             <div class="user-profile">
                 <img src="{{ user.picture }}" alt="Profile" class="user-avatar"
                     title="{{ user.name }} ({{ user.email }})">
-                <!-- <span style="font-size:0.9rem; font-weight:500;">{{ user.name }}</span> -->
                 <a href="{{ url_for('logout') }}" class="auth-btn btn-logout">Logout</a>
             </div>
-            <!-- Only show manual sync if logged in? Or always? Keeping it always for now but maybe styled differently -->
             <a href="{{ url_for('refresh_data') }}" class="byb-btn byb-btn--sm byb-btn--outline"
                 style="font-size: 0.8rem;">Sync Data</a>
             {% else %}

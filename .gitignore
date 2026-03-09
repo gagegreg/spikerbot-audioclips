@@ -8,4 +8,5 @@ static/audio/*
 data/script.txt
 data/metadata.json
 token.json
+tokens.json
 api.googlekey.json 

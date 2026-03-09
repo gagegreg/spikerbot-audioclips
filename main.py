@@ -1,6 +1,9 @@
 
 import os
 import json
+import uuid
+from datetime import datetime, timezone
+from typing import List, Optional
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -38,6 +41,7 @@ SHEET_DUMP_PATH = os.path.join(DATA_DIR, "../sheet_dump.json") # It's in root ba
 # main.py is in same dir.
 SHEET_DUMP_PATH = "sheet_dump.json"
 RATINGS_PATH = os.path.join(DATA_DIR, "ratings.json")
+COLLECTIONS_PATH = os.path.join(DATA_DIR, "collections.json")
 AUDIO_DIR = "static/audio"
 
 # Auth0 Configuration
@@ -62,6 +66,25 @@ class RatingRequest(BaseModel):
     rating: int = 0
     starred: bool = False
 
+class ClipItem(BaseModel):
+    filename: str
+    person: str = ""
+    section: str = ""
+    quote: str = ""
+    drive_url: str = ""
+    trim_start: float = 0
+    trim_end: float = 0
+
+class CollectionCreate(BaseModel):
+    name: str
+    clips: List[ClipItem] = []
+    is_public: bool = False
+
+class CollectionUpdate(BaseModel):
+    name: Optional[str] = None
+    clips: Optional[List[ClipItem]] = None
+    is_public: Optional[bool] = None
+
 def get_ratings():
     if not os.path.exists(RATINGS_PATH):
         return {}
@@ -70,6 +93,19 @@ def get_ratings():
             return json.load(f)
         except:
             return {}
+
+def get_collections():
+    if not os.path.exists(COLLECTIONS_PATH):
+        return {}
+    with open(COLLECTIONS_PATH, 'r') as f:
+        try:
+            return json.load(f)
+        except:
+            return {}
+
+def save_collections(data):
+    with open(COLLECTIONS_PATH, 'w') as f:
+        json.dump(data, f, indent=2)
 
 def save_ratings(data):
     with open(RATINGS_PATH, 'w') as f:
@@ -219,6 +255,174 @@ async def rate_audio(request: Request, payload: RatingRequest):
     save_ratings(data)
     
     return {"status": "ok", "data": user_entry}
+
+# --- Collection Routes ---
+
+def _get_audio_library():
+    """Build the full audio library from metadata + local files."""
+    if not os.path.exists(META_PATH):
+        return []
+    with open(META_PATH, 'r') as f:
+        meta_rows = json.load(f)
+    parser = ScriptParser()
+    audio_metas = parser.parse_sheet_rows(meta_rows)
+    local_audio_files = []
+    if os.path.exists(AUDIO_DIR):
+        local_audio_files = os.listdir(AUDIO_DIR)
+    sections = parser.organize_by_section(audio_metas, local_audio_files)
+    return sections
+
+@app.get("/collections", response_class=HTMLResponse)
+async def collections_page(request: Request):
+    user = request.session.get("user")
+    sections = _get_audio_library()
+    sorted_sections = dict(sorted(sections.items()))
+    speakers = set()
+    for takes in sorted_sections.values():
+        for take in takes:
+            if take.person:
+                speakers.add(take.person)
+    return templates.TemplateResponse("collections.html", {
+        "request": request,
+        "sections": sorted_sections,
+        "speakers": sorted(list(speakers)),
+        "user": user,
+    })
+
+@app.get("/collections/{collection_id}", response_class=HTMLResponse)
+async def collection_edit_page(request: Request, collection_id: str):
+    user = request.session.get("user")
+    collections = get_collections()
+    col = collections.get(collection_id)
+    if not col:
+        raise HTTPException(status_code=404, detail="Collection not found")
+
+    user_email = user.get("email") if user else None
+    is_owner = col.get("owner_email") == user_email
+    if not col.get("is_public") and not is_owner:
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    sections = _get_audio_library()
+    sorted_sections = dict(sorted(sections.items()))
+    speakers = set()
+    for takes in sorted_sections.values():
+        for take in takes:
+            if take.person:
+                speakers.add(take.person)
+
+    return templates.TemplateResponse("collections.html", {
+        "request": request,
+        "sections": sorted_sections,
+        "speakers": sorted(list(speakers)),
+        "user": user,
+        "collection": col,
+        "is_owner": is_owner,
+    })
+
+@app.get("/shared/{share_token}", response_class=HTMLResponse)
+async def shared_collection_page(request: Request, share_token: str):
+    user = request.session.get("user")
+    collections = get_collections()
+    col = None
+    for c in collections.values():
+        if c.get("share_token") == share_token:
+            col = c
+            break
+    if not col:
+        raise HTTPException(status_code=404, detail="Collection not found")
+    if not col.get("is_public"):
+        raise HTTPException(status_code=403, detail="This collection is not public")
+
+    sections = _get_audio_library()
+    sorted_sections = dict(sorted(sections.items()))
+    speakers = set()
+    for takes in sorted_sections.values():
+        for take in takes:
+            if take.person:
+                speakers.add(take.person)
+
+    return templates.TemplateResponse("collections.html", {
+        "request": request,
+        "sections": sorted_sections,
+        "speakers": sorted(list(speakers)),
+        "user": user,
+        "collection": col,
+        "is_owner": False,
+    })
+
+@app.get("/api/collections")
+async def api_list_collections(request: Request):
+    user = request.session.get("user")
+    email = user.get("email") if user else None
+    collections = get_collections()
+    result = []
+    for cid, col in collections.items():
+        if col.get("owner_email") == email or col.get("is_public"):
+            result.append(col)
+    result.sort(key=lambda x: x.get("updated_at", ""), reverse=True)
+    return result
+
+@app.post("/api/collections")
+async def api_create_collection(request: Request, payload: CollectionCreate):
+    user = request.session.get("user")
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    email = user.get("email")
+    cid = str(uuid.uuid4())[:8]
+    share_token = str(uuid.uuid4())[:12]
+    now = datetime.now(timezone.utc).isoformat()
+    col = {
+        "id": cid,
+        "name": payload.name,
+        "owner_email": email,
+        "owner_name": user.get("name", email),
+        "created_at": now,
+        "updated_at": now,
+        "is_public": payload.is_public,
+        "share_token": share_token,
+        "clips": [c.model_dump() for c in payload.clips],
+    }
+    collections = get_collections()
+    collections[cid] = col
+    save_collections(collections)
+    return col
+
+@app.put("/api/collections/{collection_id}")
+async def api_update_collection(request: Request, collection_id: str, payload: CollectionUpdate):
+    user = request.session.get("user")
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    collections = get_collections()
+    col = collections.get(collection_id)
+    if not col:
+        raise HTTPException(status_code=404, detail="Collection not found")
+    if col.get("owner_email") != user.get("email"):
+        raise HTTPException(status_code=403, detail="Not the owner")
+    if payload.name is not None:
+        col["name"] = payload.name
+    if payload.clips is not None:
+        col["clips"] = [c.model_dump() for c in payload.clips]
+    if payload.is_public is not None:
+        col["is_public"] = payload.is_public
+    col["updated_at"] = datetime.now(timezone.utc).isoformat()
+    collections[collection_id] = col
+    save_collections(collections)
+    return col
+
+@app.delete("/api/collections/{collection_id}")
+async def api_delete_collection(request: Request, collection_id: str):
+    user = request.session.get("user")
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    collections = get_collections()
+    col = collections.get(collection_id)
+    if not col:
+        raise HTTPException(status_code=404, detail="Collection not found")
+    if col.get("owner_email") != user.get("email"):
+        raise HTTPException(status_code=403, detail="Not the owner")
+    del collections[collection_id]
+    save_collections(collections)
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

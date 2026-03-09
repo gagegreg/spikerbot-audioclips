@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clip Collections — Audio Script Preview</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/byb.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/variables.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #f5f5f7;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #1d1d1f;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 200;
+        }
+        .toolbar-left { display: flex; align-items: center; gap: 16px; }
+        .toolbar-left h2 { font-size: 1.1rem; font-weight: 700; color: #111; }
+        .toolbar-left a { font-size: 0.85rem; color: var(--byb-color-blue); text-decoration: none; font-weight: 500; }
+        .toolbar-left a:hover { text-decoration: underline; }
+        .toolbar-actions { display: flex; gap: 12px; align-items: center; }
+        .user-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+        .auth-btn { padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+        .btn-login { background: #007bff; color: white; }
+        .btn-logout { background: #eee; color: #333; }
+
+        /* ── Main Layout ── */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* ── Sidebar: My Collections ── */
+        .sidebar-collections {
+            width: 260px;
+            background: #fff;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        .sidebar-header {
+            padding: 14px 16px 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-header h3 { font-size: 0.9rem; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.04em; }
+        .btn-new-collection {
+            background: var(--byb-color-blue);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-new-collection:hover { background: #007ae6; }
+        .collection-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        .collection-item {
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+            margin-bottom: 2px;
+        }
+        .collection-item:hover { background: #f0f0f0; }
+        .collection-item.active { background: var(--byb-color-tinted-blue); }
+        .collection-item .col-name { font-size: 0.85rem; font-weight: 600; color: #222; }
+        .collection-item .col-meta { font-size: 0.7rem; color: #999; margin-top: 2px; }
+        .collection-item .col-public-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            background: var(--byb-color-tinted-green);
+            color: var(--byb-color-green);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* ── Center: Timeline Builder ── */
+        .center-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .collection-editor {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Collection header / name */
+        .collection-title-bar {
+            padding: 14px 20px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .collection-name-input {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #111;
+            flex: 1;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .collection-name-input:focus { border-bottom-color: var(--byb-color-blue); }
+        .collection-name-input:disabled { color: #555; }
+
+        .share-controls { display: flex; gap: 8px; align-items: center; }
+        .toggle-public {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
+        }
+        .toggle-public input[type="checkbox"] { accent-color: var(--byb-color-green); width: 16px; height: 16px; }
+        .btn-share {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #555;
+            transition: all 0.15s;
+        }
+        .btn-share:hover { border-color: var(--byb-color-blue); color: var(--byb-color-blue); }
+        .btn-save {
+            background: var(--byb-color-blue);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-save:hover { background: #007ae6; }
+        .btn-save:disabled { opacity: 0.5; cursor: default; }
+        .btn-delete {
+            background: none;
+            border: 1px solid #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #c00;
+        }
+        .btn-delete:hover { background: #ffebee; border-color: #c00; }
+
+        /* Timeline area */
+        .timeline-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            min-height: 0;
+        }
+        .timeline-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        .timeline-empty .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
+        .timeline-empty p { margin-bottom: 4px; }
+
+        .timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .timeline-clip {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.15s;
+            user-select: none;
+        }
+        .timeline-clip .clip-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            gap: 12px;
+            cursor: grab;
+        }
+        .timeline-clip .clip-row:active { cursor: grabbing; }
+        .timeline-clip.dragging { opacity: 0.4; border-style: dashed; }
+        .timeline-clip.drag-over { border-color: var(--byb-color-blue); box-shadow: 0 0 0 2px rgba(0,147,255,0.2); }
+        .timeline-clip.playing-clip { border-color: var(--byb-color-blue); background: #f0f7ff; }
+
+        .clip-drag-handle {
+            color: #ccc;
+            font-size: 1.2rem;
+            cursor: grab;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .clip-number {
+            width: 24px;
+            height: 24px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #666;
+            flex-shrink: 0;
+        }
+        .timeline-clip.playing-clip .clip-number { background: var(--byb-color-blue); color: white; }
+        .clip-info { flex: 1; min-width: 0; }
+        .clip-info .clip-quote {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .clip-info .clip-details {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 2px;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .clip-person-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: #f0f0f0;
+            color: #666;
+            flex-shrink: 0;
+        }
+        .clip-duration {
+            font-size: 0.75rem;
+            color: #888;
+            font-family: 'Roboto Mono', monospace;
+            flex-shrink: 0;
+        }
+        .clip-remove {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .clip-remove:hover { color: #c00; background: #ffebee; }
+        .clip-trim-btn {
+            background: none;
+            border: none;
+            color: #bbb;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .clip-trim-btn:hover { color: var(--byb-color-blue); background: var(--byb-color-tinted-blue); }
+        .clip-trim-btn.has-trim { color: var(--byb-color-orange); }
+
+        /* ── Trim Editor ── */
+        .trim-editor {
+            padding: 12px 14px 10px 52px;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+        .timeline-clip.trim-open .trim-editor { display: block; }
+        .timeline-clip.trim-open { border-radius: 8px; overflow: hidden; }
+        .timeline-clip.trim-open > .trim-editor { border-radius: 0 0 8px 8px; }
+
+        .trim-track-wrapper {
+            position: relative;
+            height: 36px;
+            margin-bottom: 8px;
+            user-select: none;
+        }
+        .trim-track {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .trim-active-region {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background: var(--byb-color-tinted-blue);
+            border: 2px solid var(--byb-color-blue);
+            border-radius: 3px;
+            min-width: 4px;
+        }
+        .trim-handle {
+            position: absolute;
+            top: -2px;
+            width: 12px;
+            height: 40px;
+            cursor: ew-resize;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .trim-handle::after {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background: var(--byb-color-blue);
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .trim-handle:hover::after { background: #005ec7; width: 6px; }
+        .trim-handle-in { left: 0; }
+        .trim-handle-out { right: 0; transform: translateX(50%); }
+
+        .trim-playhead {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #ff3b30;
+            z-index: 4;
+            pointer-events: none;
+            display: none;
+        }
+
+        .trim-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.7rem;
+            color: #888;
+        }
+        .trim-info .trim-label { color: #aaa; }
+        .trim-info .trim-value { color: #555; font-weight: 600; }
+        .trim-info .trim-sep { color: #ddd; }
+
+        .trim-actions {
+            display: flex;
+            gap: 6px;
+            margin-left: auto;
+        }
+        .trim-actions button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #666;
+        }
+        .trim-actions button:hover { border-color: #aaa; color: #333; }
+        .trim-actions .btn-trim-preview { color: var(--byb-color-blue); border-color: var(--byb-color-blue); }
+        .trim-actions .btn-trim-preview:hover { background: var(--byb-color-tinted-blue); }
+        .trim-actions .btn-trim-reset { color: #c00; border-color: #e0e0e0; }
+        .trim-actions .btn-trim-reset:hover { background: #ffebee; border-color: #c00; }
+
+        /* ── Scrub Bar / Player ── */
+        .player-bar {
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            flex-shrink: 0;
+        }
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-play-all {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--byb-color-blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.15s;
+        }
+        .btn-play-all:hover { background: #007ae6; }
+        .btn-play-all:disabled { opacity: 0.4; cursor: default; }
+        .btn-skip {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #777;
+            padding: 4px;
+        }
+        .btn-skip:hover { color: #333; }
+        .scrub-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .scrub-bar-wrapper {
+            position: relative;
+            height: 32px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .scrub-segments {
+            display: flex;
+            height: 100%;
+            position: relative;
+        }
+        .scrub-segment {
+            height: 100%;
+            position: relative;
+            transition: opacity 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .scrub-segment .seg-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            white-space: nowrap;
+            padding: 0 4px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .scrub-segment:nth-child(odd) { opacity: 0.85; }
+        .scrub-playhead {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: #fff;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+            z-index: 10;
+            pointer-events: none;
+            transition: left 0.05s linear;
+        }
+        .scrub-times {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #999;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .total-duration {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #555;
+            font-family: 'Roboto Mono', monospace;
+            flex-shrink: 0;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        /* ── Right sidebar: Clip Library ── */
+        .sidebar-library {
+            width: 320px;
+            background: #fff;
+            border-left: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        .library-header {
+            padding: 14px 16px 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .library-header h3 { font-size: 0.9rem; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+        .library-search {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .library-search:focus { border-color: var(--byb-color-blue); }
+
+        .library-filters {
+            padding: 8px 16px;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            border-bottom: 1px solid #eee;
+            flex-shrink: 0;
+        }
+        .lib-filter-btn {
+            background: #eee;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #555;
+            white-space: nowrap;
+        }
+        .lib-filter-btn.active { background: #333; color: white; }
+        .lib-filter-btn:hover { opacity: 0.8; }
+
+        .library-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        .library-section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #aaa;
+            padding: 8px 8px 4px;
+        }
+        .library-clip {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.12s;
+            gap: 8px;
+        }
+        .library-clip:hover { background: #f5f5f5; }
+        .library-clip .lib-clip-info { flex: 1; min-width: 0; }
+        .library-clip .lib-clip-quote {
+            font-size: 0.8rem;
+            font-style: italic;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .library-clip .lib-clip-meta {
+            font-size: 0.65rem;
+            color: #aaa;
+            font-family: 'Roboto Mono', monospace;
+            margin-top: 1px;
+        }
+        .library-clip .lib-clip-person {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1px 5px;
+            border-radius: 3px;
+            background: #f0f0f0;
+            color: #666;
+            flex-shrink: 0;
+        }
+        .btn-add-clip {
+            background: var(--byb-color-tinted-blue);
+            color: var(--byb-color-blue);
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.12s;
+        }
+        .btn-add-clip:hover { background: var(--byb-color-blue); color: white; }
+        .btn-preview-clip {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #aaa;
+            flex-shrink: 0;
+        }
+        .btn-preview-clip:hover { color: var(--byb-color-blue); }
+
+        /* ── No-collection state ── */
+        .no-collection-selected {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            gap: 8px;
+        }
+        .no-collection-selected .icon { font-size: 3rem; opacity: 0.3; }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 999;
+            pointer-events: none;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .sidebar-collections { display: none; }
+            .sidebar-library { width: 260px; }
+        }
+        @media (max-width: 600px) {
+            .sidebar-library { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<div class="toolbar">
+    <div class="toolbar-left">
+        <h2>Clip Collections</h2>
+        <a href="{{ url_for('read_root') }}">← Back to Clips</a>
+    </div>
+    <div class="toolbar-actions">
+        {% if user %}
+        <img src="{{ user.picture }}" alt="" class="user-avatar" title="{{ user.name }}">
+        <a href="{{ url_for('logout') }}" class="auth-btn btn-logout">Logout</a>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="auth-btn btn-login">Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="main-layout">
+
+    <!-- Left Sidebar: My Collections -->
+    <div class="sidebar-collections">
+        <div class="sidebar-header">
+            <h3>Collections</h3>
+            {% if user %}
+            <button class="btn-new-collection" onclick="createNewCollection()">+ New</button>
+            {% endif %}
+        </div>
+        <div class="collection-list" id="collectionList">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <!-- Center: Timeline Builder -->
+    <div class="center-panel">
+        <div id="collectionEditor" class="collection-editor" style="display:none;">
+            <!-- Title Bar -->
+            <div class="collection-title-bar">
+                <input type="text" class="collection-name-input" id="collectionName" placeholder="Untitled Collection" maxlength="100">
+                <div class="share-controls">
+                    <label class="toggle-public" id="publicToggle" style="display:none;">
+                        <input type="checkbox" id="isPublicCheck" onchange="markDirty()">
+                        Public
+                    </label>
+                    <button class="btn-share" id="btnShare" style="display:none;" onclick="copyShareLink()">Copy Link</button>
+                    <button class="btn-save" id="btnSave" onclick="saveCollection()" disabled>Save</button>
+                    <button class="btn-delete" id="btnDelete" style="display:none;" onclick="deleteCollection()">Delete</button>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline-area" id="timelineArea">
+                <div class="timeline-empty" id="timelineEmpty">
+                    <div class="icon">🎬</div>
+                    <p><strong>No clips yet</strong></p>
+                    <p style="font-size:0.8rem;">Add clips from the library on the right →</p>
+                </div>
+                <div class="timeline-list" id="timelineList"></div>
+            </div>
+
+            <!-- Player Bar -->
+            <div class="player-bar">
+                <div class="player-controls">
+                    <button class="btn-skip" onclick="skipPrev()" title="Previous clip">⏮</button>
+                    <button class="btn-play-all" id="btnPlayAll" onclick="togglePlayAll()" disabled title="Play all clips">▶</button>
+                    <button class="btn-skip" onclick="skipNext()" title="Next clip">⏭</button>
+                    <div class="scrub-container">
+                        <div class="scrub-bar-wrapper" id="scrubBar" onclick="scrubClick(event)">
+                            <div class="scrub-segments" id="scrubSegments"></div>
+                            <div class="scrub-playhead" id="scrubPlayhead"></div>
+                        </div>
+                        <div class="scrub-times">
+                            <span id="currentTime">0:00</span>
+                            <span id="totalTime">0:00</span>
+                        </div>
+                    </div>
+                    <div class="total-duration" id="totalDuration">0:00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-collection-selected" id="noCollectionSelected">
+            <div class="icon">📁</div>
+            <p><strong>Select or create a collection</strong></p>
+            <p style="font-size:0.8rem; color:#bbb;">Build sequences of clips for your video project</p>
+        </div>
+    </div>
+
+    <!-- Right Sidebar: Clip Library -->
+    <div class="sidebar-library">
+        <div class="library-header">
+            <h3>Clip Library</h3>
+            <input type="text" class="library-search" id="librarySearch" placeholder="Search clips..." oninput="filterLibrary()">
+        </div>
+        <div class="library-filters" id="libraryFilters">
+            <button class="lib-filter-btn active" onclick="setLibFilter('all', this)">All</button>
+            {% for person in speakers %}
+            <button class="lib-filter-btn" onclick="setLibFilter('{{ person }}', this)">{{ person }}</button>
+            {% endfor %}
+        </div>
+        <div class="library-list" id="libraryList">
+            {% for section_name, takes in sections.items() %}
+            <div class="library-section" data-section="{{ section_name }}">
+                <div class="library-section-label">{{ section_name }}</div>
+                {% for take in takes %}
+                <div class="library-clip"
+                     data-filename="{{ take.filename }}"
+                     data-person="{{ take.person }}"
+                     data-section="{{ section_name }}"
+                     data-quote="{{ take.quote }}"
+                     data-url="{{ url_for('static', path=take.drive_url) }}"
+                     data-drive-url="{{ take.drive_url }}">
+                    <button class="btn-preview-clip" onclick="event.stopPropagation(); previewClip(this.closest('.library-clip'))" title="Preview">▶</button>
+                    <div class="lib-clip-info">
+                        <div class="lib-clip-quote">{{ take.quote or take.filename }}</div>
+                        <div class="lib-clip-meta">{{ take.filename }}</div>
+                    </div>
+                    <span class="lib-clip-person" data-person="{{ take.person }}">{{ take.person }}</span>
+                    <button class="btn-add-clip" onclick="event.stopPropagation(); addClipFromLibrary(this.closest('.library-clip'))" title="Add to timeline">+</button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BASE = "{{ request.scope.get('root_path', '') }}";
+const IS_LOGGED_IN = {{ 'true' if user else 'false' }};
+const USER_EMAIL = "{{ user.email if user else '' }}";
+
+const segColors = [
+    '#0093ff', '#ff805f', '#00aa4f', '#ffc600', '#9c5fff',
+    '#e05090', '#00bcd4', '#8bc34a', '#ff9800', '#607d8b'
+];
+
+let collections = [];
+let currentCollection = null;
+let timelineClips = [];
+let isDirty = false;
+let isPlaying = false;
+let currentAudio = null;
+let currentClipIdx = -1;
+let clipDurations = {};
+let previewAudio = null;
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+    loadCollections();
+    {% if collection is defined and collection %}
+    const serverCol = {{ collection | tojson }};
+    openCollectionFromData(serverCol);
+    {% endif %}
+});
+
+// ── Collections CRUD ──
+async function loadCollections() {
+    if (!IS_LOGGED_IN) {
+        document.getElementById('collectionList').innerHTML = '<div style="padding:16px; color:#aaa; font-size:0.8rem;">Login to manage collections</div>';
+        return;
+    }
+    try {
+        const res = await fetch(BASE + '/api/collections');
+        collections = await res.json();
+        renderCollectionList();
+    } catch (e) { console.error(e); }
+}
+
+function renderCollectionList() {
+    const el = document.getElementById('collectionList');
+    if (!collections.length) {
+        el.innerHTML = '<div style="padding:16px; color:#aaa; font-size:0.8rem;">No collections yet</div>';
+        return;
+    }
+    el.innerHTML = collections.map(c => `
+        <div class="collection-item ${currentCollection && currentCollection.id === c.id ? 'active' : ''}"
+             onclick="openCollection('${c.id}')">
+            <div class="col-name">
+                ${escHtml(c.name || 'Untitled')}
+                ${c.is_public ? '<span class="col-public-badge">Public</span>' : ''}
+            </div>
+            <div class="col-meta">${c.clips ? c.clips.length : 0} clips · ${c.owner_name || 'Unknown'}</div>
+        </div>
+    `).join('');
+}
+
+async function createNewCollection() {
+    if (!IS_LOGGED_IN) return toast('Login required');
+    const res = await fetch(BASE + '/api/collections', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'Untitled Collection', clips: [], is_public: false })
+    });
+    const col = await res.json();
+    collections.unshift(col);
+    openCollectionFromData(col);
+    renderCollectionList();
+    toast('Collection created');
+}
+
+function openCollection(id) {
+    if (isDirty && !confirm('You have unsaved changes. Discard?')) return;
+    const col = collections.find(c => c.id === id);
+    if (col) openCollectionFromData(col);
+}
+
+function openCollectionFromData(col) {
+    currentCollection = col;
+    timelineClips = (col.clips || []).map(c => ({ ...c }));
+    clipDurations = {};
+    isDirty = false;
+    stopPlayback();
+
+    document.getElementById('noCollectionSelected').style.display = 'none';
+    const editor = document.getElementById('collectionEditor');
+    editor.style.display = 'flex';
+
+    document.getElementById('collectionName').value = col.name || '';
+    document.getElementById('isPublicCheck').checked = !!col.is_public;
+
+    const isOwner = col.owner_email === USER_EMAIL;
+    document.getElementById('collectionName').disabled = !isOwner;
+    document.getElementById('publicToggle').style.display = isOwner ? 'flex' : 'none';
+    document.getElementById('btnShare').style.display = col.is_public ? 'inline-flex' : 'none';
+    document.getElementById('btnDelete').style.display = isOwner ? 'inline-flex' : 'none';
+    document.getElementById('btnSave').style.display = isOwner ? 'inline-flex' : 'none';
+    document.getElementById('btnSave').disabled = true;
+
+    document.getElementById('collectionName').oninput = () => markDirty();
+
+    renderTimeline();
+    renderScrubBar();
+    renderCollectionList();
+    loadClipDurations();
+}
+
+function markDirty() {
+    isDirty = true;
+    document.getElementById('btnSave').disabled = false;
+    const isPublic = document.getElementById('isPublicCheck').checked;
+    document.getElementById('btnShare').style.display = isPublic ? 'inline-flex' : 'none';
+}
+
+async function saveCollection() {
+    if (!currentCollection) return;
+    const name = document.getElementById('collectionName').value.trim() || 'Untitled';
+    const isPublic = document.getElementById('isPublicCheck').checked;
+    const clips = timelineClips.map(c => ({
+        filename: c.filename,
+        person: c.person || '',
+        section: c.section || '',
+        quote: c.quote || '',
+        drive_url: c.drive_url || '',
+        trim_start: c.trim_start || 0,
+        trim_end: c.trim_end || 0,
+    }));
+    try {
+        const res = await fetch(BASE + '/api/collections/' + currentCollection.id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, clips, is_public: isPublic })
+        });
+        const updated = await res.json();
+        currentCollection = updated;
+        const idx = collections.findIndex(c => c.id === updated.id);
+        if (idx >= 0) collections[idx] = updated;
+        else collections.unshift(updated);
+        isDirty = false;
+        document.getElementById('btnSave').disabled = true;
+        document.getElementById('btnShare').style.display = updated.is_public ? 'inline-flex' : 'none';
+        renderCollectionList();
+        toast('Saved');
+    } catch (e) {
+        console.error(e);
+        toast('Save failed');
+    }
+}
+
+async function deleteCollection() {
+    if (!currentCollection) return;
+    if (!confirm('Delete this collection?')) return;
+    try {
+        await fetch(BASE + '/api/collections/' + currentCollection.id, { method: 'DELETE' });
+        collections = collections.filter(c => c.id !== currentCollection.id);
+        currentCollection = null;
+        timelineClips = [];
+        isDirty = false;
+        document.getElementById('collectionEditor').style.display = 'none';
+        document.getElementById('noCollectionSelected').style.display = 'flex';
+        renderCollectionList();
+        stopPlayback();
+        toast('Deleted');
+    } catch (e) { console.error(e); toast('Delete failed'); }
+}
+
+function copyShareLink() {
+    if (!currentCollection || !currentCollection.share_token) return;
+    const url = window.location.origin + BASE + '/shared/' + currentCollection.share_token;
+    navigator.clipboard.writeText(url).then(() => toast('Link copied!')).catch(() => {
+        prompt('Share link:', url);
+    });
+}
+
+// ── Trim helpers ──
+function getClipFullDuration(clip) {
+    return clipDurations[clip.filename] || 0;
+}
+function getClipTrimStart(clip) {
+    return clip.trim_start || 0;
+}
+function getClipTrimEnd(clip) {
+    const full = getClipFullDuration(clip);
+    return (clip.trim_end && clip.trim_end > 0) ? Math.min(clip.trim_end, full) : full;
+}
+function getClipEffectiveDuration(clip) {
+    return Math.max(0, getClipTrimEnd(clip) - getClipTrimStart(clip));
+}
+function hasTrim(clip) {
+    const full = getClipFullDuration(clip);
+    if (!full) return false;
+    return (clip.trim_start > 0.05) || (clip.trim_end > 0.05 && clip.trim_end < full - 0.05);
+}
+
+let expandedTrimIdx = -1;
+
+// ── Timeline ──
+function renderTimeline() {
+    const list = document.getElementById('timelineList');
+    const empty = document.getElementById('timelineEmpty');
+    const playBtn = document.getElementById('btnPlayAll');
+
+    if (!timelineClips.length) {
+        empty.style.display = 'flex';
+        list.style.display = 'none';
+        playBtn.disabled = true;
+        return;
+    }
+    empty.style.display = 'none';
+    list.style.display = 'flex';
+    playBtn.disabled = false;
+
+    list.innerHTML = timelineClips.map((clip, i) => {
+        const full = getClipFullDuration(clip);
+        const effDur = getClipEffectiveDuration(clip);
+        const trimmed = hasTrim(clip);
+        const tStart = getClipTrimStart(clip);
+        const tEnd = getClipTrimEnd(clip);
+        const inPct = full ? (tStart / full) * 100 : 0;
+        const outPct = full ? (tEnd / full) * 100 : 100;
+
+        return `
+        <div class="timeline-clip ${currentClipIdx === i && isPlaying ? 'playing-clip' : ''} ${expandedTrimIdx === i ? 'trim-open' : ''}"
+             draggable="true"
+             data-idx="${i}"
+             ondragstart="onDragStart(event, ${i})"
+             ondragover="onDragOver(event, ${i})"
+             ondragleave="onDragLeave(event)"
+             ondrop="onDrop(event, ${i})"
+             ondragend="onDragEnd(event)">
+            <div class="clip-row">
+                <span class="clip-drag-handle">⠿</span>
+                <span class="clip-number">${i + 1}</span>
+                <div class="clip-info">
+                    <div class="clip-quote">${escHtml(clip.quote || clip.filename)}</div>
+                    <div class="clip-details">${escHtml(clip.filename)} · ${escHtml(clip.section || '')}${trimmed ? ' · trimmed' : ''}</div>
+                </div>
+                <span class="clip-person-tag" data-person="${escHtml(clip.person)}">${escHtml(clip.person)}</span>
+                <span class="clip-duration">${formatTime(effDur)}</span>
+                <button class="clip-trim-btn ${trimmed ? 'has-trim' : ''}" onclick="event.stopPropagation(); toggleTrimEditor(${i})" title="Trim clip">✂</button>
+                <button class="clip-remove" onclick="event.stopPropagation(); removeClip(${i})" title="Remove">✕</button>
+            </div>
+            <div class="trim-editor" id="trimEditor${i}">
+                <div class="trim-track-wrapper" id="trimTrack${i}">
+                    <div class="trim-track">
+                        <div class="trim-active-region" id="trimRegion${i}" style="left:${inPct}%; width:${outPct - inPct}%;"></div>
+                    </div>
+                    <div class="trim-playhead" id="trimPlayhead${i}"></div>
+                    <div class="trim-handle trim-handle-in" id="trimHandleIn${i}" style="left:${inPct}%;"
+                         onmousedown="startTrimDrag(event, ${i}, 'in')"></div>
+                    <div class="trim-handle trim-handle-out" id="trimHandleOut${i}" style="left:${outPct}%;"
+                         onmousedown="startTrimDrag(event, ${i}, 'out')"></div>
+                </div>
+                <div class="trim-info">
+                    <span><span class="trim-label">In</span> <span class="trim-value" id="trimInVal${i}">${formatTimePrecise(tStart)}</span></span>
+                    <span class="trim-sep">→</span>
+                    <span><span class="trim-label">Out</span> <span class="trim-value" id="trimOutVal${i}">${formatTimePrecise(tEnd)}</span></span>
+                    <span class="trim-sep">|</span>
+                    <span><span class="trim-label">Dur</span> <span class="trim-value" id="trimDurVal${i}">${formatTimePrecise(effDur)}</span></span>
+                    <span class="trim-sep">/ ${formatTimePrecise(full)}</span>
+                    <div class="trim-actions">
+                        <button class="btn-trim-preview" onclick="previewTrimmedClip(${i})">▶ Preview</button>
+                        <button class="btn-trim-reset" onclick="resetTrim(${i})">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+    colorizePersonTags();
+}
+
+function addClipFromLibrary(el) {
+    if (!currentCollection) return toast('Create or select a collection first');
+    const clip = {
+        filename: el.dataset.filename,
+        person: el.dataset.person,
+        section: el.dataset.section,
+        quote: el.dataset.quote,
+        drive_url: el.dataset.driveUrl,
+        trim_start: 0,
+        trim_end: 0,
+    };
+    timelineClips.push(clip);
+    markDirty();
+    renderTimeline();
+    renderScrubBar();
+    loadSingleClipDuration(clip.filename, el.dataset.url);
+}
+
+function removeClip(idx) {
+    timelineClips.splice(idx, 1);
+    markDirty();
+    if (currentClipIdx === idx) stopPlayback();
+    else if (currentClipIdx > idx) currentClipIdx--;
+    renderTimeline();
+    renderScrubBar();
+}
+
+// ── Drag & Drop ──
+let dragIdx = null;
+function onDragStart(e, idx) {
+    dragIdx = idx;
+    e.dataTransfer.effectAllowed = 'move';
+    e.target.classList.add('dragging');
+}
+function onDragOver(e, idx) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    e.currentTarget.classList.add('drag-over');
+}
+function onDragLeave(e) {
+    e.currentTarget.classList.remove('drag-over');
+}
+function onDrop(e, targetIdx) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    if (dragIdx === null || dragIdx === targetIdx) return;
+    const [clip] = timelineClips.splice(dragIdx, 1);
+    timelineClips.splice(targetIdx, 0, clip);
+    markDirty();
+    if (currentClipIdx === dragIdx) currentClipIdx = targetIdx;
+    renderTimeline();
+    renderScrubBar();
+}
+function onDragEnd(e) {
+    dragIdx = null;
+    document.querySelectorAll('.timeline-clip').forEach(el => {
+        el.classList.remove('dragging', 'drag-over');
+    });
+}
+
+// ── Audio Playback ──
+function togglePlayAll() {
+    if (isPlaying) {
+        stopPlayback();
+    } else {
+        if (!timelineClips.length) return;
+        currentClipIdx = 0;
+        isPlaying = true;
+        playClipAtIndex(0);
+    }
+}
+
+function playClipAtIndex(idx) {
+    if (idx >= timelineClips.length) {
+        stopPlayback();
+        return;
+    }
+    currentClipIdx = idx;
+    const clip = timelineClips[idx];
+    const url = BASE + '/static/' + clip.drive_url;
+    const trimIn = getClipTrimStart(clip);
+    const trimOut = getClipTrimEnd(clip);
+
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+
+    currentAudio = new Audio(url);
+    currentAudio.addEventListener('loadedmetadata', () => {
+        clipDurations[clip.filename] = currentAudio.duration;
+        if (trimIn > 0) currentAudio.currentTime = trimIn;
+        renderScrubBar();
+        renderTimeline();
+    });
+    currentAudio.addEventListener('timeupdate', () => {
+        const endPt = (trimOut > 0) ? trimOut : currentAudio.duration;
+        if (currentAudio.currentTime >= endPt - 0.05) {
+            currentAudio.pause();
+            currentClipIdx++;
+            if (currentClipIdx < timelineClips.length) {
+                playClipAtIndex(currentClipIdx);
+            } else {
+                stopPlayback();
+            }
+            return;
+        }
+        updateScrubPlayhead();
+    });
+    currentAudio.addEventListener('ended', () => {
+        currentClipIdx++;
+        if (currentClipIdx < timelineClips.length) {
+            playClipAtIndex(currentClipIdx);
+        } else {
+            stopPlayback();
+        }
+    });
+    currentAudio.addEventListener('error', () => {
+        toast('Error loading clip');
+        stopPlayback();
+    });
+    currentAudio.play();
+    isPlaying = true;
+    document.getElementById('btnPlayAll').innerHTML = '⏸';
+    renderTimeline();
+}
+
+function stopPlayback() {
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    isPlaying = false;
+    currentClipIdx = -1;
+    document.getElementById('btnPlayAll').innerHTML = '▶';
+    document.getElementById('scrubPlayhead').style.left = '0px';
+    document.getElementById('currentTime').textContent = '0:00';
+    renderTimeline();
+}
+
+function skipNext() {
+    if (!isPlaying || !timelineClips.length) return;
+    const next = currentClipIdx + 1;
+    if (next < timelineClips.length) playClipAtIndex(next);
+    else stopPlayback();
+}
+
+function skipPrev() {
+    if (!isPlaying || !timelineClips.length) return;
+    const prev = Math.max(0, currentClipIdx - 1);
+    playClipAtIndex(prev);
+}
+
+// ── Scrub Bar ──
+function renderScrubBar() {
+    const container = document.getElementById('scrubSegments');
+    const total = getTotalDuration();
+    document.getElementById('totalTime').textContent = formatTime(total);
+    document.getElementById('totalDuration').textContent = formatTime(total);
+
+    if (!timelineClips.length || total === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = timelineClips.map((clip, i) => {
+        const dur = getClipEffectiveDuration(clip);
+        const pct = (dur / total) * 100;
+        const color = segColors[i % segColors.length];
+        return `<div class="scrub-segment" style="width:${pct}%; background:${color};" title="${escHtml(clip.quote || clip.filename)} (${formatTime(dur)})">
+            <span class="seg-label">${i + 1}</span>
+        </div>`;
+    }).join('');
+}
+
+function getTotalDuration() {
+    return timelineClips.reduce((sum, c) => sum + getClipEffectiveDuration(c), 0);
+}
+
+function getOffsetForClip(idx) {
+    let offset = 0;
+    for (let i = 0; i < idx; i++) {
+        offset += getClipEffectiveDuration(timelineClips[i]);
+    }
+    return offset;
+}
+
+function updateScrubPlayhead() {
+    if (!currentAudio || currentClipIdx < 0) return;
+    const clip = timelineClips[currentClipIdx];
+    const trimIn = getClipTrimStart(clip);
+    const offset = getOffsetForClip(currentClipIdx);
+    const elapsed = offset + (currentAudio.currentTime - trimIn);
+    const total = getTotalDuration();
+    if (total === 0) return;
+    const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
+    document.getElementById('scrubPlayhead').style.left = pct + '%';
+    document.getElementById('currentTime').textContent = formatTime(Math.max(0, elapsed));
+}
+
+function scrubClick(e) {
+    const bar = document.getElementById('scrubBar');
+    const rect = bar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    const total = getTotalDuration();
+    const targetTime = pct * total;
+
+    let accumulated = 0;
+    for (let i = 0; i < timelineClips.length; i++) {
+        const dur = getClipEffectiveDuration(timelineClips[i]);
+        if (accumulated + dur > targetTime) {
+            const clipOffset = targetTime - accumulated;
+            const trimIn = getClipTrimStart(timelineClips[i]);
+            playClipAtIndex(i);
+            const waitForLoad = () => {
+                if (currentAudio && currentAudio.readyState >= 1) {
+                    currentAudio.currentTime = trimIn + clipOffset;
+                } else if (currentAudio) {
+                    currentAudio.addEventListener('loadedmetadata', () => {
+                        currentAudio.currentTime = trimIn + clipOffset;
+                    }, { once: true });
+                }
+            };
+            waitForLoad();
+            return;
+        }
+        accumulated += dur;
+    }
+}
+
+// ── Clip Duration Loading ──
+async function loadClipDurations() {
+    for (const clip of timelineClips) {
+        if (!clipDurations[clip.filename]) {
+            await loadSingleClipDuration(clip.filename, BASE + '/static/' + clip.drive_url);
+        }
+    }
+}
+
+function loadSingleClipDuration(filename, url) {
+    return new Promise(resolve => {
+        if (clipDurations[filename]) { resolve(); return; }
+        const a = new Audio(url);
+        a.addEventListener('loadedmetadata', () => {
+            clipDurations[filename] = a.duration;
+            renderScrubBar();
+            renderTimeline();
+            resolve();
+        });
+        a.addEventListener('error', () => resolve());
+    });
+}
+
+// ── Library Preview ──
+function previewClip(el) {
+    const url = el.dataset.url;
+    if (previewAudio && previewAudio.src.endsWith(url) && !previewAudio.paused) {
+        previewAudio.pause();
+        previewAudio = null;
+        return;
+    }
+    if (previewAudio) previewAudio.pause();
+    previewAudio = new Audio(url);
+    previewAudio.play();
+}
+
+// ── Library Filter & Search ──
+let libFilter = 'all';
+function setLibFilter(person, btn) {
+    libFilter = person;
+    document.querySelectorAll('.lib-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterLibrary();
+}
+
+function filterLibrary() {
+    const q = document.getElementById('librarySearch').value.toLowerCase();
+    document.querySelectorAll('.library-clip').forEach(el => {
+        const matchesPerson = libFilter === 'all' || el.dataset.person === libFilter;
+        const matchesSearch = !q ||
+            el.dataset.filename.toLowerCase().includes(q) ||
+            el.dataset.quote.toLowerCase().includes(q) ||
+            el.dataset.person.toLowerCase().includes(q);
+        el.style.display = matchesPerson && matchesSearch ? 'flex' : 'none';
+    });
+    document.querySelectorAll('.library-section').forEach(sec => {
+        const hasVisible = sec.querySelector('.library-clip[style*="flex"]') || 
+                           [...sec.querySelectorAll('.library-clip')].some(c => c.style.display !== 'none');
+        sec.style.display = hasVisible ? 'block' : 'none';
+    });
+}
+
+// ── Colorize ──
+const personColors = {
+    'alex': ['#c8e6ff', '#0093ff'],
+    'chris': ['#ffe899', '#dcb000'],
+    'greg': ['#c8ebd8', '#00aa4f'],
+};
+function colorizePersonTags() {
+    document.querySelectorAll('[data-person]').forEach(el => {
+        const person = (el.dataset.person || '').toLowerCase();
+        const [bg, fg] = personColors[person] || ['#f0f0f0', '#666'];
+        if (el.classList.contains('clip-person-tag') || el.classList.contains('lib-clip-person')) {
+            el.style.backgroundColor = bg;
+            el.style.color = fg;
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', colorizePersonTags);
+
+// ── Trim Editor ──
+function toggleTrimEditor(idx) {
+    if (expandedTrimIdx === idx) {
+        expandedTrimIdx = -1;
+    } else {
+        expandedTrimIdx = idx;
+    }
+    renderTimeline();
+    renderScrubBar();
+}
+
+let trimDragState = null;
+
+function startTrimDrag(e, clipIdx, handle) {
+    e.preventDefault();
+    e.stopPropagation();
+    const track = document.getElementById('trimTrack' + clipIdx);
+    if (!track) return;
+    const trackRect = track.getBoundingClientRect();
+    const clip = timelineClips[clipIdx];
+    const full = getClipFullDuration(clip);
+    if (!full) return;
+
+    trimDragState = { clipIdx, handle, trackRect, full };
+
+    const onMove = (ev) => {
+        if (!trimDragState) return;
+        const pct = Math.max(0, Math.min(1, (ev.clientX - trimDragState.trackRect.left) / trimDragState.trackRect.width));
+        const timeSec = pct * trimDragState.full;
+        const c = timelineClips[trimDragState.clipIdx];
+
+        if (trimDragState.handle === 'in') {
+            const maxIn = getClipTrimEnd(c) - 0.1;
+            c.trim_start = Math.max(0, Math.min(timeSec, maxIn));
+        } else {
+            const minOut = getClipTrimStart(c) + 0.1;
+            c.trim_end = Math.max(minOut, Math.min(timeSec, trimDragState.full));
+        }
+        updateTrimUI(trimDragState.clipIdx);
+        markDirty();
+    };
+
+    const onUp = () => {
+        trimDragState = null;
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        renderScrubBar();
+        renderTimeline();
+    };
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+}
+
+function updateTrimUI(idx) {
+    const clip = timelineClips[idx];
+    const full = getClipFullDuration(clip);
+    if (!full) return;
+    const tStart = getClipTrimStart(clip);
+    const tEnd = getClipTrimEnd(clip);
+    const inPct = (tStart / full) * 100;
+    const outPct = (tEnd / full) * 100;
+
+    const region = document.getElementById('trimRegion' + idx);
+    const handleIn = document.getElementById('trimHandleIn' + idx);
+    const handleOut = document.getElementById('trimHandleOut' + idx);
+    const inVal = document.getElementById('trimInVal' + idx);
+    const outVal = document.getElementById('trimOutVal' + idx);
+    const durVal = document.getElementById('trimDurVal' + idx);
+
+    if (region) { region.style.left = inPct + '%'; region.style.width = (outPct - inPct) + '%'; }
+    if (handleIn) handleIn.style.left = inPct + '%';
+    if (handleOut) handleOut.style.left = outPct + '%';
+    if (inVal) inVal.textContent = formatTimePrecise(tStart);
+    if (outVal) outVal.textContent = formatTimePrecise(tEnd);
+    if (durVal) durVal.textContent = formatTimePrecise(tEnd - tStart);
+}
+
+function resetTrim(idx) {
+    timelineClips[idx].trim_start = 0;
+    timelineClips[idx].trim_end = 0;
+    markDirty();
+    renderTimeline();
+    renderScrubBar();
+}
+
+let trimPreviewAudio = null;
+function previewTrimmedClip(idx) {
+    if (trimPreviewAudio) { trimPreviewAudio.pause(); trimPreviewAudio = null; }
+    const clip = timelineClips[idx];
+    const url = BASE + '/static/' + clip.drive_url;
+    const trimIn = getClipTrimStart(clip);
+    const trimOut = getClipTrimEnd(clip);
+
+    trimPreviewAudio = new Audio(url);
+    trimPreviewAudio.addEventListener('loadedmetadata', () => {
+        trimPreviewAudio.currentTime = trimIn;
+        trimPreviewAudio.play();
+    });
+    trimPreviewAudio.addEventListener('timeupdate', () => {
+        if (trimPreviewAudio.currentTime >= trimOut - 0.05) {
+            trimPreviewAudio.pause();
+            trimPreviewAudio = null;
+        }
+    });
+}
+
+// ── Helpers ──
+function formatTimePrecise(s) {
+    if (!s || isNaN(s)) return '0:00.0';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    const tenths = Math.floor((s % 1) * 10);
+    return m + ':' + String(sec).padStart(2, '0') + '.' + tenths;
+}
+
+function formatTime(s) {
+    if (!s || isNaN(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + String(sec).padStart(2, '0');
+}
+
+function escHtml(str) {
+    if (!str) return '';
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+}
+
+function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
